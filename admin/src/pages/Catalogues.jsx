@@ -1,0 +1,133 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Plus, Search } from 'lucide-react';
+import AddCatalogue from '../components/AddCatalogue';
+import { useNavigate } from 'react-router-dom';
+
+function Catalogues() {
+  const [catalogues, setCatalogues] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [createCatalogue, setCreateCatalogue] = useState(false)
+  const navigate = useNavigate();
+
+  const handleClick = (c) => {
+    navigate(`/catalogue/${c}`);
+  };
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    async function fetchCatalogues() {
+      try {
+        setLoading(true);
+        setError('');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/catalouge/`, {
+          cancelToken: source.token,
+        });
+        console.log(response.data)
+        setCatalogues(response.data.catalogues);
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log('Fetch cancelled');
+        } else if (err.response) {
+          setError(`Server error: ${err.response.status}`);
+        } else if (err.request) {
+          setError('Network error: No response from server');
+        } else {
+          setError(`Error: ${err.message}`);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCatalogues();
+
+    return () => source.cancel('Component unmounted.');
+  }, []);
+
+  const filtered = catalogues.filter((c) =>
+    c.title.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+    c.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 p-4">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">Catalogues</h1>
+        </div>
+        <button className="flex items-center gap-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+          onClick={() => setCreateCatalogue(!createCatalogue)}
+        >
+          <Plus className="h-4 w-4" /> Create
+        </button>
+      </div>
+
+      <div className="relative">
+        <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search catalogues..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+
+      {error && (
+        <div className="p-4 bg-red-100 text-red-700 rounded-lg text-sm border border-red-300">
+          {error}
+        </div>
+      )}
+
+      {filtered.length === 0 ? (
+        <div className="text-center py-12 space-y-3">
+          <div className="text-gray-400">—</div>
+          <h3 className="text-lg font-medium text-gray-800">No catalogues found</h3>
+          <p className="text-gray-600">
+            {searchTerm
+              ? 'Try adjusting your search terms.'
+              : 'Get started by creating your first catalogue.'}
+          </p>
+          {!searchTerm && (
+            <button className="inline-flex items-center gap-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+              onClick={() => setCreateCatalogue(!createCatalogue)}>
+              <Plus className="h-4 w-4" /> Create
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 cursor-pointer">
+          {filtered.map((c) => (
+            <div
+              onClick={() => handleClick(c._id)}
+              key={c._id}
+              className="border rounded-lg shadow hover:shadow-lg transition p-2 flex gap-4 font-medium">
+              <img src={c.image} className='h-20 w-22 object-fill object-center rounded' />
+              <div className="space-y-1">
+                <h2 className="font-semibold text-gray-800 text-[1.15rem]">{c.title}</h2>
+                <div className="text-sm text-gray-700">
+                  {c.productCount} Products
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {createCatalogue && <AddCatalogue setCreateCatalogue={setCreateCatalogue} createCatalogue={createCatalogue} />}
+    </div>
+  );
+}
+
+export default Catalogues;
