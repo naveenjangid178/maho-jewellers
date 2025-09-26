@@ -132,7 +132,7 @@ function Users() {
                       <div className="flex flex-wrap gap-1">
                         {user.allowedCatalogues.map(({ _id, catalogue, expiresAt }) => (
                           <span key={_id} className="text-xs px-2 py-1 bg-gray-200 rounded flex flex-col">
-                            <span>{catalogue.title}</span>
+                            <span>{catalogue?.title}</span>
                             <span className="text-[10px] text-gray-500">
                               Expires: {new Date(expiresAt).toLocaleString()}
                             </span>

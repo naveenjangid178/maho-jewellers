@@ -1,21 +1,25 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    name: {
+    sku: {
         type: String,
         required: true
     },
-    price: {
+    productID: {
+        type: String,
+        required: true
+    },
+    beads: {
+        type: String,
+        required: true
+    },
+    netWeight: {
         type: Number,
         required: true
     },
-    weight: {
-        type: String,
-        unit: { type: String, enum: ['g', 'kg', 'oz', 'lb'] }
-    },
-    karat: {
-        type: String,
-        enum: ['14K', '18K', '22K', '24K']
+    grossWeight: {
+        type: Number,
+        required: true
     },
     images: [{
         type: String

@@ -28,6 +28,19 @@ const CatalogueDetails = () => {
     fetchProducts();
   }, [addProductToCatalogue]);
 
+  const removeFromCatalogue = async (productId) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/catalouge/${id}/product/${productId}`);
+      alert('Product removed successfully!');
+      // Directly update product list in state
+      setProducts(prev => prev.filter(product => product._id !== productId));
+      return response.data;
+    } catch (error) {
+      console.error("Failed to remove product from featured:", error);
+      throw error;
+    }
+  };
+
   return (
     <div className="p-4 space-y-6">
       <div className="flex justify-between items-center">
@@ -45,6 +58,7 @@ const CatalogueDetails = () => {
         loading={loading}
         editProduct={editProduct}
         setEditProduct={setEditProduct}
+        handleDelete={removeFromCatalogue}
       />
 
       {addProductToCatalogue && <AddProduct addProductToCatalogue={addProductToCatalogue} setAddProductToCatalogue={setAddProductToCatalogue} catalogueId={id} />}

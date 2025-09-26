@@ -23,6 +23,19 @@ function Products() {
     fetchProducts();
   }, [editProduct]);
 
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/product/${productId}`);
+      alert('Product removed successfully!');
+      // Directly update product list in state
+      setProducts(prev => prev.filter(product => product._id !== productId));
+      return response.data;
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+      throw error;
+    }
+  };
+
   return (
     <div className="space-y-6 p-4">
       <h1 className="text-3xl font-bold text-gray-800">Products</h1>
@@ -31,6 +44,7 @@ function Products() {
         loading={loading}
         editProduct={editProduct}
         setEditProduct={setEditProduct}
+        handleDelete={deleteProduct}
       />
     </div>
   );

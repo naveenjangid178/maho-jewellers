@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Search } from 'lucide-react';
+import { Eye, Plus, Search, Trash2 } from 'lucide-react';
 import AddCatalogue from '../components/AddCatalogue';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,6 +47,19 @@ function Catalogues() {
 
     return () => source.cancel('Component unmounted.');
   }, []);
+
+  const deleteCatalogue = async (catalogueId) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_API_URL}/catalouge/${catalogueId}`);
+      alert('Catalogue deleted successfully!');
+      // Directly update product list in state
+      setCatalogues(prev => prev.filter(catalogue => catalogue._id !== catalogueId));
+      return response.data;
+    } catch (error) {
+      console.error("Failed to delete catalogue:", error);
+      throw error;
+    }
+  };
 
   const filtered = catalogues.filter((c) =>
     c.title.toLowerCase().includes(searchTerm?.toLowerCase()) ||
@@ -111,14 +124,19 @@ function Catalogues() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 cursor-pointer">
           {filtered.map((c) => (
             <div
-              onClick={() => handleClick(c._id)}
               key={c._id}
-              className="border rounded-lg shadow hover:shadow-lg transition p-2 flex gap-4 font-medium">
+              className="border rounded-lg relative shadow hover:shadow-lg transition p-2 flex gap-4 font-medium">
               <img src={c.image} className='h-20 w-22 object-fill object-center rounded' />
               <div className="space-y-1">
                 <h2 className="font-semibold text-gray-800 text-[1.15rem]">{c.title}</h2>
                 <div className="text-sm text-gray-700">
                   {c.productCount} Products
+                </div>
+              </div>
+              <div className='absolute bottom-2 right-2'>
+                <div className='flex items-center text-center gap-2'>
+                  <button className="text-green-500 hover:text-green-700 cursor-pointer" onClick={() => handleClick(c._id)}><Eye className="h-5 w-5" /></button>
+                  <button className="text-red-500 hover:text-red-700 cursor-pointer"><Trash2 className="h-5 w-5" onClick={() => deleteCatalogue(c._id)} /></button>
                 </div>
               </div>
             </div>

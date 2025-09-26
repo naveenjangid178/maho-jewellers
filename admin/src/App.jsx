@@ -11,6 +11,7 @@ import Carts from './pages/Carts';
 import Tracking from './pages/Tracking';
 import AdminLayout from './components/AdminLayout';
 import CatalogueDetails from './pages/CatalogueDetails';
+import Featured from './pages/Featured';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                   <Route path="/users" element={<Users />} />
                   <Route path="/catalogues" element={<Catalogues />} />
                   <Route path="/catalogue/:id" element={<CatalogueDetails />} />
+                  <Route path="/featured" element={<Featured />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/carts" element={<Carts />} />
                   <Route path="/tracking" element={<Tracking />} />

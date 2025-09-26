@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProductAndAddToCatalogue, createProductsFromExcel, getAllProducts, getProductById, updateProduct } from "../controllers/product.controller.js";
+import { createProductAndAddToCatalogue, createProductsFromExcel, deleteProduct, getAllProducts, getProductById, updateProduct } from "../controllers/product.controller.js";
 import multer from "multer";
 
 const storage = multer.memoryStorage(); // In-memory buffer
@@ -12,5 +12,6 @@ router.route("/excel").post(upload.single('file'), createProductsFromExcel)
 router.route("/").get(getAllProducts)
 router.route("/:id").get(getProductById)
 router.put('/:id', updateProduct);
+router.delete("/:productId", deleteProduct);
 
 export default router;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { X, LayoutDashboard, Users, Package, ShoppingCart, ShoppingBag, Activity, LogOut } from 'lucide-react';
+import { X, LayoutDashboard, Users, Package, ShoppingCart, ShoppingBag, Activity, LogOut, InspectIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const navigation = [
@@ -10,6 +10,7 @@ const navigation = [
   { name: 'Products', href: '/products', icon: ShoppingBag },
   { name: 'Carts', href: '/carts', icon: ShoppingCart },
   { name: 'Tracking', href: '/tracking', icon: Activity },
+  { name: 'Featured', href: '/featured', icon: InspectIcon },
 ];
 
 function Sidebar({ isOpen, onClose }) {

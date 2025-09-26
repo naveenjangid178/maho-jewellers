@@ -3,6 +3,8 @@ import { Catalogue } from "../models/catalogue.model.js";  // Import Catalogue m
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import * as xlsx from "xlsx";
 import ExcelJS from "exceljs"
+import { Featured } from "../models/featured.model.js";
+import mongoose from "mongoose";
 
 const addProductsToCatalogue = async (req, res) => {
     try {
@@ -218,93 +220,97 @@ const createProductsFromExcelWithoutImage = async (req, res) => {
 };
 
 const createProductsFromExcel = async (req, res) => {
-  try {
-    const { catalogueId } = req.body;
-    const file = req.file; // Multer memoryStorage (file.buffer available)
+    try {
+        const { catalogueId } = req.body;
+        const file = req.file; // Multer memoryStorage (file.buffer available)
 
-    if (!catalogueId) {
-      return res.status(400).json({ message: "Catalogue ID is required." });
+        if (!catalogueId) {
+            return res.status(400).json({ message: "Catalogue ID is required." });
+        }
+
+        if (!file || !file.buffer) {
+            return res.status(400).json({ message: "Excel file is required." });
+        }
+
+        // Load workbook from buffer
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(file.buffer);
+        const worksheet = workbook.worksheets[0];
+
+        // Map row numbers to image buffers
+        const imageMap = {};
+        worksheet.getImages().forEach(({ range, imageId }) => {
+            const image = workbook.getImage(imageId);
+            if (image && image.buffer) {
+                const row = range.tl.nativeRow + 1; // adjust for 1-based rows
+                imageMap[row] = image.buffer;
+            }
+        });
+
+        // Check catalogue exists
+        const catalogue = await Catalogue.findById(catalogueId);
+        if (!catalogue) {
+            return res.status(404).json({ message: "Catalogue not found." });
+        }
+
+        const createdProducts = [];
+
+        // Loop through rows (assuming row 1 = header)
+        for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
+            const row = worksheet.getRow(rowNumber);
+
+            const sku = row.getCell(1).value;
+            const productID = row.getCell(2).value;
+            const netWeight = row.getCell(4).value;
+            const grossWeight = row.getCell(5).value;
+            const bead = row.getCell(6).value;
+            const imageBuffer = imageMap[rowNumber];
+
+            // Skip invalid rows
+            //   if (!name || !price || !weight || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
+            //     console.log(`Skipping row ${rowNumber}: Missing required fields or image.`);
+            //     continue;
+            //   }
+
+            // Upload image to Cloudinary
+            let imageUrl;
+            try {
+                imageUrl = await uploadOnCloudinary(imageBuffer);
+            } catch (err) {
+                console.error(`Row ${rowNumber} image upload failed:`, err.message);
+                continue;
+            }
+
+            // Create product
+            const newProduct = new Product({
+                sku: sku ?? "Unnamed Product",
+                productID: productID,
+                beads: bead,
+                netWeight: netWeight ?? 0,
+                grossWeight: grossWeight ?? 0,
+                karat: "24K",
+                images: [imageUrl],
+            });
+
+            const savedProduct = await newProduct.save();
+            catalogue.products.push(savedProduct._id);
+            createdProducts.push(savedProduct);
+        }
+
+        // Save catalogue with linked products
+        await catalogue.save();
+
+        return res.status(201).json({
+            message: `${createdProducts.length} products created successfully.`,
+            products: createdProducts,
+        });
+    } catch (error) {
+        console.error("Error creating products from Excel:", error);
+        return res.status(500).json({
+            message: "An error occurred while processing the Excel file.",
+            error: error.message,
+        });
     }
-
-    if (!file || !file.buffer) {
-      return res.status(400).json({ message: "Excel file is required." });
-    }
-
-    // Load workbook from buffer
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(file.buffer);
-    const worksheet = workbook.worksheets[0];
-
-    // Map row numbers to image buffers
-    const imageMap = {};
-    worksheet.getImages().forEach(({ range, imageId }) => {
-      const image = workbook.getImage(imageId);
-      if (image && image.buffer) {
-        const row = range.tl.nativeRow + 1; // adjust for 1-based rows
-        imageMap[row] = image.buffer;
-      }
-    });
-
-    // Check catalogue exists
-    const catalogue = await Catalogue.findById(catalogueId);
-    if (!catalogue) {
-      return res.status(404).json({ message: "Catalogue not found." });
-    }
-
-    const createdProducts = [];
-
-    // Loop through rows (assuming row 1 = header)
-    for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
-      const row = worksheet.getRow(rowNumber);
-
-      const name = row.getCell(2).value;
-      const price = row.getCell(3).value;
-      const weight = row.getCell(4).value;
-      const imageBuffer = imageMap[rowNumber];
-
-      // Skip invalid rows
-    //   if (!name || !price || !weight || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
-    //     console.log(`Skipping row ${rowNumber}: Missing required fields or image.`);
-    //     continue;
-    //   }
-
-      // Upload image to Cloudinary
-      let imageUrl;
-      try {
-        imageUrl = await uploadOnCloudinary(imageBuffer);
-      } catch (err) {
-        console.error(`Row ${rowNumber} image upload failed:`, err.message);
-        continue;
-      }
-
-      // Create product
-      const newProduct = new Product({
-        name: name ?? "Unnamed Product",
-        price: price ?? 0,
-        weight: weight ?? 0,
-        karat: "24K",
-        images: [imageUrl],
-      });
-
-      const savedProduct = await newProduct.save();
-      catalogue.products.push(savedProduct._id);
-      createdProducts.push(savedProduct);
-    }
-
-    // Save catalogue with linked products
-    await catalogue.save();
-
-    return res.status(201).json({
-      message: `${createdProducts.length} products created successfully.`,
-      products: createdProducts,
-    });
-  } catch (error) {
-    console.error("Error creating products from Excel:", error);
-    return res.status(500).json({
-      message: "An error occurred while processing the Excel file.",
-      error: error.message,
-    });
-  }
 };
 
 const updateProduct = async (req, res) => {
@@ -340,11 +346,63 @@ const updateProduct = async (req, res) => {
     }
 };
 
+const deleteProduct = async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        // Validate the product ID
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({ message: "Invalid product ID." });
+        }
+
+        // Check if the product exists
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found." });
+        }
+
+        // Delete the product
+        await Product.findByIdAndDelete(productId);
+
+        // Remove the product from all catalogues
+        await Catalogue.updateMany(
+            {},
+            {
+                $pull: {
+                    products: productId,
+                },
+            }
+        );
+
+        // Remove the product from the featured list
+        await Featured.updateMany(
+            {},
+            {
+                $pull: {
+                    products: productId,
+                },
+            }
+        );
+
+        return res.status(200).json({
+            message: "Product deleted successfully from all catalogues and featured list.",
+            deletedProductId: productId,
+        });
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        return res.status(500).json({
+            message: "An error occurred while deleting the product.",
+            error: error.message,
+        });
+    }
+};
+
 export {
     addProductsToCatalogue,
     getProductById,
     getAllProducts,
     createProductAndAddToCatalogue,
     createProductsFromExcel,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };

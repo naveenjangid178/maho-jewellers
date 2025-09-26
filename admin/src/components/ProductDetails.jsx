@@ -86,11 +86,11 @@ function Pagination({ totalItems, itemsPerPage, currentPage, setCurrentPage }) {
 // ---------------------------
 function EditModal({ product, onClose, onSave }) {
   const [formData, setFormData] = useState({
-    name: product.name || '',
-    price: product.price || '',
-    weight: product.weight || '',
-    karat: product.karat || '',
-    catalogue: product.catalogue || '',
+    sku: product.sku || '',
+    productID: product.productID || '',
+    beads: product.beads || '',
+    netWeight: product.netWeight || '',
+    grossWeight: product.grossWeight || '',
   });
 
   const handleChange = (e) => {
@@ -117,41 +117,40 @@ function EditModal({ product, onClose, onSave }) {
 
         <div className="space-y-4">
           <input
-            name="name"
-            value={formData.name}
+            name="sku"
+            value={formData.sku}
             onChange={handleChange}
-            placeholder="Product Name"
+            placeholder="SKU"
+            className="w-full border rounded px-3 py-2"
+          />
+            <input
+              name="productID"
+              value={formData.productID}
+              onChange={handleChange}
+              placeholder="productID"
+              className="w-full border rounded px-3 py-2"
+            />
+          <input
+            name="beads"
+            value={formData.beads}
+            onChange={handleChange}
+            placeholder="beads"
             className="w-full border rounded px-3 py-2"
           />
           <input
-            name="price"
-            value={formData.price}
+            name="netWeight"
+            value={formData.netWeight}
             onChange={handleChange}
-            placeholder="Price"
+            placeholder="netWeight"
             type="number"
             className="w-full border rounded px-3 py-2"
           />
           <input
-            name="weight"
-            value={formData.weight}
+            name="grossWeight"
+            value={formData.grossWeight}
             onChange={handleChange}
-            placeholder="Weight"
+            placeholder="grossWeight"
             type="number"
-            className="w-full border rounded px-3 py-2"
-          />
-          <input
-            name="karat"
-            value={formData.karat}
-            onChange={handleChange}
-            placeholder="Karat"
-            type="number"
-            className="w-full border rounded px-3 py-2"
-          />
-          <input
-            name="catalogue"
-            value={formData.catalogue}
-            onChange={handleChange}
-            placeholder="Catalogue"
             className="w-full border rounded px-3 py-2"
           />
 
@@ -172,13 +171,13 @@ function EditModal({ product, onClose, onSave }) {
 // ---------------------------
 // ✅ ProductDetails Component
 // ---------------------------
-function ProductDetails({ products, loading, editProduct, setEditProduct }) {
+function ProductDetails({ products, loading, editProduct, setEditProduct, handleDelete }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
   const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.catalogue?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -238,7 +237,7 @@ function ProductDetails({ products, loading, editProduct, setEditProduct }) {
               {product.images?.length > 0 ? (
                 <img
                   src={product.images[0]}
-                  alt={product.name}
+                  alt={product.sku}
                   className="object-fill object-center w-full h-full"
                 />
               ) : (
@@ -246,24 +245,23 @@ function ProductDetails({ products, loading, editProduct, setEditProduct }) {
               )}
             </div>
             <div className="p-4 space-y-2">
-              <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">{product.name}</h2>
+              <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">{product.productID}</h2>
+              <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">{product.sku}</h2>
               <div className="flex justify-between items-center">
-                <span className="text-xl font-bold text-gray-800">${product.price}</span>
-                <span className="text-sm text-gray-500">{product.weight} {product.weightUnit}</span>
+                <span className="text-gray-500 text-sm">Net Weight <span className='font-bold'>{product.netWeight}</span></span>
+                <span className="text-sm text-gray-500">Gross Weight <span className='font-bold'>{product.grossWeight}</span></span>
               </div>
               <div className="flex justify-between items-center text-xs text-gray-600">
-                {product.karat && <span>{product.karat}</span>}
-                {product.catalogue && <span>{product.catalogue}</span>}
-              </div>
-              <div className="text-xs text-gray-500">
-                {product.images.length} image{product.images.length !== 1 && 's'}
+                <span>{product.beads}</span>
               </div>
               <div className="flex justify-end space-x-2 pt-2">
                 <button onClick={() => setEditProduct(product)} className="text-blue-500 hover:text-blue-700">
                   <Edit className="h-5 w-5" />
                 </button>
                 <button className="text-red-500 hover:text-red-700">
-                  <Trash2 className="h-5 w-5" />
+                  <Trash2 className="h-5 w-5" onClick={() => {
+                    handleDelete(product._id)
+                    }} />
                 </button>
               </div>
             </div>
@@ -279,11 +277,11 @@ function ProductDetails({ products, loading, editProduct, setEditProduct }) {
           <p className="mt-1">
             {searchTerm ? 'Try adjusting your search terms.' : 'Get started by adding your first product.'}
           </p>
-          {!searchTerm && (
+          {/* {!searchTerm && (
             <button className="mt-4 inline-flex items-center gap-2 bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700">
               <Plus className="h-5 w-5" /> Add Product
             </button>
-          )}
+          )} */}
         </div>
       )}
 

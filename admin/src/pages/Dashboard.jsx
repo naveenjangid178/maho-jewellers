@@ -47,13 +47,6 @@ function Dashboard() {
             <div>
               <p className="text-gray-500 font-medium">{name}</p>
               <p className="text-3xl font-bold text-gray-900">{value}</p>
-              <p
-                className={`mt-1 text-sm font-semibold ${
-                  changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-                }`}
-              >
-                {change} from last month
-              </p>
             </div>
           </div>
         ))}
