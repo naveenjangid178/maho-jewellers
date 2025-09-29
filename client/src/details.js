@@ -189,21 +189,17 @@ export const images = [
 ];
 
 export const footer = {
-    "Link": [
+    "About": [
         {
-            name: "link",
+            name: "Our Story",
             link: "link"
         },
         {
-            name: "link",
+            name: "Careers",
             link: "link"
         },
         {
-            name: "link",
-            link: "link"
-        },
-        {
-            name: "link",
+            name: "Blog",
             link: "link"
         },
     ],
@@ -222,42 +218,6 @@ export const footer = {
         },
         {
             name: "link",
-            link: "link"
-        },
-    ],
-    "Popular Search": [
-        {
-            name: "18K White Gold",
-            link: "link"
-        },
-        {
-            name: "Rose Gold",
-            link: "link"
-        },
-        {
-            name: "Wedding Jewelry",
-            link: "link"
-        },
-        {
-            name: "Luxury Watches",
-            link: "link"
-        },
-    ],
-    "Help": [
-        {
-            name: "Sizing Help",
-            link: "link"
-        },
-        {
-            name: "Returns & Exchanges",
-            link: "link"
-        },
-        {
-            name: "Shipping",
-            link: "link"
-        },
-        {
-            name: "Theme FAQs",
             link: "link"
         },
     ],

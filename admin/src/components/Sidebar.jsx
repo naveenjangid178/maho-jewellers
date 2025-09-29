@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { X, LayoutDashboard, Users, Package, ShoppingCart, ShoppingBag, Activity, LogOut, InspectIcon } from 'lucide-react';
+import { X, LayoutDashboard, Users, Package, ShoppingCart, ShoppingBag, Activity, LogOut, InspectIcon, PanelTop, ArrowUpSquareIcon, NotebookIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import '../index.css'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -10,7 +11,10 @@ const navigation = [
   { name: 'Products', href: '/products', icon: ShoppingBag },
   { name: 'Carts', href: '/carts', icon: ShoppingCart },
   { name: 'Tracking', href: '/tracking', icon: Activity },
+  { name: 'Blog', href: '/blog', icon: NotebookIcon },
   { name: 'Featured', href: '/featured', icon: InspectIcon },
+  { name: 'Top Product', href: '/top-product', icon: PanelTop },
+  { name: 'New Product', href: '/new-product', icon: ArrowUpSquareIcon },
 ];
 
 function Sidebar({ isOpen, onClose }) {
@@ -29,8 +33,7 @@ function Sidebar({ isOpen, onClose }) {
       {/* Sidebar */}
       <div className={`
         fixed inset-y-0 left-0 z-50 w-72 bg-admin-sidebar border-r border-admin-border
-        transform transition-transform duration-300 ease-in-out lg:translate-x-0
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        transform transition-transform duration-300 ease-in-out lg:translate-x-0 scroller pb-8 overflow-y-scroll ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Logo */}
         <div className="flex items-center justify-between h-16 px-6 border-b border-admin-border">

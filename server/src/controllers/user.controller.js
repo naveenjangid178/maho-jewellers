@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { apiError } from "../utils/apiError.js"
 import { apiResponse } from "../utils/apiResponse.js"
 import { User } from "../models/user.model.js"
-import { generateOTP, sendSMS } from "../utils/otpService.js"
+import { generateOTP, sendSMS, sendOTP } from "../utils/otpService.js"
 import mongoose from "mongoose"
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -29,7 +29,7 @@ const loginUser = asyncHandler(async (req, res) => {
         })
     }
 
-    await sendSMS(phone, otp)
+    await sendOTP(phone, otp)
 
     const createdUser = await User.findById(user._id).select(
         "-otp -otpExpires"

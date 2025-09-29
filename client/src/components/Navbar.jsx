@@ -7,36 +7,21 @@ const Navbar = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [isMenuVisible, setIsMenuVisible] = useState(false)
     const menuItems = [
+        
         {
-            name: "blog",
+            name: "New In",
             link: "/blog"
         },
         {
-            name: "blog",
+            name: "Collections",
             link: "/blog"
         },
         {
-            name: "blog",
+            name: "Blog",
             link: "/blog"
         },
         {
-            name: "blog",
-            link: "/blog"
-        },
-        {
-            name: "blog",
-            link: "/blog"
-        },
-        {
-            name: "blog",
-            link: "/blog"
-        },
-        {
-            name: "blog",
-            link: "/blog"
-        },
-        {
-            name: "blog",
+            name: "Shop",
             link: "/blog"
         },
     ]
@@ -46,10 +31,15 @@ const Navbar = () => {
     }
 
     return (
-        <nav className='md:px-12 px-4 md:pt-4 pt-2'>
+        <nav className='md:px-12 px-4 md:p-4 p-2'>
             <div className='flex items-center gap-2 justify-between'>
                 <Logo width={75} />
-                <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                <div className='md:flex hidden gap-8 justify-center p-2 opacity-60'>
+                {menuItems.map((menu) => (
+                    <a href={menu.link}>{String(menu.name).toUpperCase()}</a>
+                ))}
+            </div>
+                {/* <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
                 <div className='flex gap-4 items-center'>
                     <span className="relative cursor-pointer">
                         <p className="absolute top-0 right-[-7px] bg-[#9C1137] rounded-full h-4 w-4 flex items-center justify-center text-white text-xs">
@@ -67,11 +57,6 @@ const Navbar = () => {
 
                     {isMenuVisible ? <X className='md:hidden' onClick={handleClick} /> : <Menu className='md:hidden' onClick={handleClick} />}
                 </div>
-            </div>
-            <div className='md:flex hidden gap-8 justify-center p-2 opacity-60'>
-                {menuItems.map((menu) => (
-                    <a href={menu.link}>{String(menu.name).toUpperCase()}</a>
-                ))}
             </div>
 
             {

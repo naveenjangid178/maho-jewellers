@@ -5,6 +5,8 @@ import * as xlsx from "xlsx";
 import ExcelJS from "exceljs"
 import { Featured } from "../models/featured.model.js";
 import mongoose from "mongoose";
+import { TopProduct } from "../models/topProduct.model.js";
+import { NewProduct } from "../models/newProduct.model.js";
 
 const addProductsToCatalogue = async (req, res) => {
     try {
@@ -376,6 +378,24 @@ const deleteProduct = async (req, res) => {
 
         // Remove the product from the featured list
         await Featured.updateMany(
+            {},
+            {
+                $pull: {
+                    products: productId,
+                },
+            }
+        );
+
+        await TopProduct.updateMany(
+            {},
+            {
+                $pull: {
+                    products: productId,
+                },
+            }
+        );
+
+        await NewProduct.updateMany(
             {},
             {
                 $pull: {

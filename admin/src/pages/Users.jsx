@@ -82,7 +82,7 @@ function Users() {
           />
         </div>
 
-        <div className="flex md:gap-2 gap-1 w-fit">
+        {/* <div className="flex md:gap-2 gap-1 w-fit">
           <input
             type="date"
             value={startDate}
@@ -101,7 +101,7 @@ function Users() {
             }}
             className="border rounded-md md:px-3 px-1 py-2"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Table */}

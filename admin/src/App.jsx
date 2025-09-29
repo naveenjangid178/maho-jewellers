@@ -12,6 +12,10 @@ import Tracking from './pages/Tracking';
 import AdminLayout from './components/AdminLayout';
 import CatalogueDetails from './pages/CatalogueDetails';
 import Featured from './pages/Featured';
+import TopProduct from './pages/TopProduct';
+import NewProduct from './pages/NewProduct';
+import Blog from './pages/Blog';
+import BlogDetails from './pages/BlogDetails';
 
 function App() {
   return (
@@ -30,9 +34,13 @@ function App() {
                   <Route path="/catalogues" element={<Catalogues />} />
                   <Route path="/catalogue/:id" element={<CatalogueDetails />} />
                   <Route path="/featured" element={<Featured />} />
+                  <Route path="/top-product" element={<TopProduct />} />
+                  <Route path="/new-product" element={<NewProduct />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/carts" element={<Carts />} />
                   <Route path="/tracking" element={<Tracking />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:id" element={<BlogDetails />} />
                 </Routes>
               </AdminLayout>
             </ProtectedRoute>
