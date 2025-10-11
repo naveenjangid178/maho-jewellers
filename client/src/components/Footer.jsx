@@ -1,10 +1,26 @@
 import { Facebook, Instagram, Twitter } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { footer } from '../details'
 import Logo from './Logo'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { getAllCatalogues } from '../utils/catalogue'
 
 const Footer = () => {
+    const [catalogues, setCatalogues] = useState([])
+
+    useEffect(() => {
+        async function fetchCatalogues() {
+            try {
+                const response = await getAllCatalogues();
+                setCatalogues(response);
+            } catch (error) {
+                console.error('Error fetching catalogues:', error);
+            }
+        }
+        fetchCatalogues();
+    }, []);
+
     return (
         <footer>
             <div className='bg-[#F6F3EE] py-2 md:px-12 px-4'>
@@ -20,12 +36,9 @@ const Footer = () => {
                         <div className='text-[#383434] flex flex-col gap-4'>
                             <h3 className='font-medium'>Shop</h3>
                             <div className='grid md:grid-cols-2 gap-4 grid-cols-1'>
-                                <Link>Phone: 8079088775</Link>
-                                <Link>Phone: 8079088775</Link>
-                                <Link>Phone: 8079088775</Link>
-                                <Link>Phone: 8079088775</Link>
-                                <Link>Phone: 8079088775</Link>
-                                <Link>Phone: 8079088775</Link>
+                                {catalogues.map((c) => (
+                                    <Link key={c._id} to={`/catalogue/${c._id}`}>{c.title}</Link>
+                                ))}
                             </div>
                         </div>
                         <div className='flex flex-col gap-3 text-[#383434]'>

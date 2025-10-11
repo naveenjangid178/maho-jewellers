@@ -16,6 +16,7 @@ import TopProduct from './pages/TopProduct';
 import NewProduct from './pages/NewProduct';
 import Blog from './pages/Blog';
 import BlogDetails from './pages/BlogDetails';
+import Testimonial from './pages/Testimonial';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
                   <Route path="/carts" element={<Carts />} />
                   <Route path="/tracking" element={<Tracking />} />
                   <Route path="/blog" element={<Blog />} />
+                  <Route path="/testimonial" element={<Testimonial />} />
                   <Route path="/blog/:id" element={<BlogDetails />} />
                 </Routes>
               </AdminLayout>

@@ -161,6 +161,11 @@ export const newArrivals = [
         image: "./ring.jpg",
         price: "$22.00"
     },
+    {
+        name: "Sterling Silver Band Ring",
+        image: "./ring.jpg",
+        price: "$22.00"
+    },
 ]
 
 export const blogs = [

@@ -10,11 +10,11 @@ const Navbar = () => {
         
         {
             name: "New In",
-            link: "/blog"
+            link: "/new-products"
         },
         {
             name: "Collections",
-            link: "/blog"
+            link: "/catalogue"
         },
         {
             name: "Blog",
@@ -22,7 +22,7 @@ const Navbar = () => {
         },
         {
             name: "Shop",
-            link: "/blog"
+            link: "/cart"
         },
     ]
 
@@ -36,7 +36,7 @@ const Navbar = () => {
                 <Logo width={75} />
                 <div className='md:flex hidden gap-8 justify-center p-2 opacity-60'>
                 {menuItems.map((menu) => (
-                    <a href={menu.link}>{String(menu.name).toUpperCase()}</a>
+                    <a href={menu.link} key={menu.name}>{String(menu.name).toUpperCase()}</a>
                 ))}
             </div>
                 {/* <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}

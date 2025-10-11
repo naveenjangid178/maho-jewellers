@@ -5,33 +5,33 @@ import { User } from "../models/user.model.js";  // Adjust import path as needed
 // Controller to create a user product view
 const createUserProductView = async (req, res) => {
   try {
-    const { userId, productId, viewStart, viewEnd } = req.body;
+    const { phone, catalogue, viewStart, viewEnd } = req.body;
 
     // Validate input
-    if (!userId || !productId || !viewStart || !viewEnd) {
-      return res.status(400).json({ message: "UserId, productId, viewStart, and viewEnd are required." });
-    }
-
-    // Ensure that the user and product exist
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found." });
-    }
-
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found." });
+    if (!phone || !catalogue || !viewStart || !viewEnd) {
+      return res.status(400).json({ message: "Phone, catalogue, viewStart, and viewEnd are required." });
     }
 
     // Calculate the time spent (in seconds)
-    const timeSpent = Math.floor((new Date(viewEnd).getTime() - new Date(viewStart).getTime()) / 1000);
+    const start = new Date(viewStart);
+    const end = new Date(viewEnd);
+
+    if (isNaN(start) || isNaN(end)) {
+      return res.status(400).json({ message: "Invalid date format for viewStart or viewEnd." });
+    }
+
+    const timeSpent = Math.floor((end.getTime() - start.getTime()) / 1000);
+
+    if (timeSpent < 0) {
+      return res.status(400).json({ message: "viewEnd must be after viewStart." });
+    }
 
     // Create the UserProductView entry
     const userProductView = new UserProductView({
-      userId,
-      productId,
-      viewStart: new Date(viewStart),
-      viewEnd: new Date(viewEnd),
+      phone,
+      catalogue,
+      viewStart: start,
+      viewEnd: end,
       timeSpent
     });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { X, LayoutDashboard, Users, Package, ShoppingCart, ShoppingBag, Activity, LogOut, InspectIcon, PanelTop, ArrowUpSquareIcon, NotebookIcon } from 'lucide-react';
+import { X, LayoutDashboard, Users, Package, ShoppingCart, ShoppingBag, Activity, LogOut, InspectIcon, PanelTop, ArrowUpSquareIcon, NotebookIcon, Star } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import '../index.css'
 
@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Carts', href: '/carts', icon: ShoppingCart },
   { name: 'Tracking', href: '/tracking', icon: Activity },
   { name: 'Blog', href: '/blog', icon: NotebookIcon },
+  { name: 'Testimonial', href: '/testimonial', icon: Star },
   { name: 'Featured', href: '/featured', icon: InspectIcon },
   { name: 'Top Product', href: '/top-product', icon: PanelTop },
   { name: 'New Product', href: '/new-product', icon: ArrowUpSquareIcon },

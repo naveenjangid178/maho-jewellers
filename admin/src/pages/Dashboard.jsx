@@ -95,7 +95,7 @@ function Dashboard() {
       </section> */}
       <section className='flex gap-2 overflow-x-auto scroller'>
         {slider.map(s => <div className='h-32 relative content-center' key={s._id}>
-          <img src={s.imageUrl} className='w-fit h-32' />
+          <img src={s.imageUrl} className='w-fit max-w-40 h-32' />
           <Trash2Icon className='text-red-500 absolute bottom-2 right-2 z-10 cursor-pointer' onClick={() => handleDelete(s._id)} />
         </div>)}
       </section>

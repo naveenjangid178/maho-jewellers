@@ -26,6 +26,7 @@ import topProductRouter from "./routes/topProduct.routes.js"
 import newProductRouter from "./routes/newProduct.routes.js"
 import productRouter from "./routes/product.routes.js"
 import blogRouter from "./routes/blog.routes.js"
+import testimonialRouter from "./routes/testimonial.routes.js"
 import sliderRouter from "./routes/slider.routes.js"
 
 // //Routes Declaration
@@ -38,6 +39,7 @@ app.use("/api/v1/top-product", topProductRouter)
 app.use("/api/v1/new-product", newProductRouter)
 app.use("/api/v1/product", productRouter)
 app.use("/api/v1/blog", blogRouter)
+app.use("/api/v1/testimonial", testimonialRouter)
 app.use("/api/v1/slider", sliderRouter)
 
 export { app }

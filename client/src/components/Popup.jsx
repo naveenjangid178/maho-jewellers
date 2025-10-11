@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import PhoneLogin from './PhoneLogin';
+import { X } from 'lucide-react';
+import { usePopup } from '../context/PopupContext';
 
 const Popup = () => {
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const {isPopupVisible, setIsPopupVisible} = usePopup();
 
   useEffect(() => {
     // Check if the popup has already been shown in the current session
     const hasPopupBeenShown = sessionStorage.getItem('popupShown');
+    const user = localStorage.getItem('phone')
 
-    if (!hasPopupBeenShown) {
+    if (!hasPopupBeenShown && !user) {
       // Set a timeout to show the popup after 5 seconds
       const timer = setTimeout(() => {
         setIsPopupVisible(true);
@@ -26,16 +30,9 @@ const Popup = () => {
   return (
     <>
       {isPopupVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-100">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full text-center">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Welcome to the Website!</h2>
-            <p className="text-gray-600 mb-4">We're glad to have you here. Enjoy browsing!</p>
-            <button
-              onClick={closePopup}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400 focus:outline-none"
-            >
-              Close
-            </button>
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-50 z-100">
+          <div className="bg-transparent backdrop-blur-2xl rounded-lg shadow-black shadow-xs max-w-sm w-full text-center">
+            <PhoneLogin closePopup={closePopup} />
           </div>
         </div>
       )}
