@@ -1,6 +1,4 @@
-import { UserProductView } from "../models/userProductView.model.js";  // Adjust import path as needed
-import { Product } from "../models/product.model.js";  // Adjust import path as needed
-import { User } from "../models/user.model.js";  // Adjust import path as needed
+import { UserProductView } from "../models/userProductView.model.js";
 
 // Controller to create a user product view
 const createUserProductView = async (req, res) => {
@@ -52,4 +50,30 @@ const createUserProductView = async (req, res) => {
   }
 };
 
-export { createUserProductView };
+const getAllUserProductViews = async (req, res) => {
+  try {
+    // Fetch all records from the UserProductView collection
+    const userProductViews = await UserProductView.find();
+
+    if (!userProductViews || userProductViews.length === 0) {
+      return res.status(404).json({ message: "No user product views found." });
+    }
+
+    return res.status(200).json({
+      message: "User product views retrieved successfully.",
+      userProductViews,
+    });
+  } catch (error) {
+    console.error("Error retrieving user product views:", error);
+    return res.status(500).json({
+      message: "An error occurred while retrieving user product views.",
+      error: error.message,
+    });
+  }
+};
+
+
+export {
+  createUserProductView,
+  getAllUserProductViews
+};

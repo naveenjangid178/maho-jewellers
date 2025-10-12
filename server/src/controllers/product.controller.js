@@ -268,6 +268,19 @@ const createProductsFromExcel = async (req, res) => {
             const bead = row.getCell(6).value;
             const imageBuffer = imageMap[rowNumber];
 
+            const existingProduct = await Product.findOne({ sku });
+            if (existingProduct) {
+                console.log(`SKU "${sku}" already exists. Linking to catalogue and skipping creation.`);
+
+                // Avoid duplicating in catalogue.products
+                if (!catalogue.products.includes(existingProduct._id)) {
+                    catalogue.products.push(existingProduct._id);
+                }
+
+                createdProducts.push(existingProduct); // Optional: Track as processed
+                continue;
+            }
+
             // Skip invalid rows
             //   if (!name || !price || !weight || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
             //     console.log(`Skipping row ${rowNumber}: Missing required fields or image.`);

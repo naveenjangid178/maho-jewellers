@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePopup } from '../context/PopupContext'
 import { X } from 'lucide-react'
+import { requestAccess } from "../utils/requestAccess"
 
 const CatalogueCard = ({ id, title, image, productCount }) => {
     const { setIsPopupVisible } = usePopup();
@@ -38,12 +39,32 @@ const CatalogueCard = ({ id, title, image, productCount }) => {
         }
     };
 
+    const handleRequestAccess = async () => {
+        const user = localStorage.getItem('user');
+        const phone = localStorage.getItem('phone');
+
+        const payload = {
+            title: title,
+            catalogueId: id,
+            userId: user,
+            phone: phone,
+        };
+
+        const result = await requestAccess(payload);
+
+        if (result.success) {
+            alert("Request submitted successfully!");
+        } else {
+            alert(`Failed: ${result.message}`);
+        }
+    };
+
     return (
         <>
             <div
                 key={id}
                 className="border rounded-lg shadow hover:shadow-lg cursor-pointer transition p-2 flex flex-col gap-4 font-medium"
-                onClick={() => handleClick({id})}
+                onClick={() => handleClick({ id })}
             >
                 <img src={image} className='h-52 w-full object-fill object-center rounded' />
                 <div className="">
@@ -55,7 +76,10 @@ const CatalogueCard = ({ id, title, image, productCount }) => {
             </div>
             {requestCatalogue && <div className='fixed inset-0 flex items-center justify-center bg-transparent bg-opacity-50 z-100'>
                 <span className='relative p-8 pt-12 pb-4 backdrop-blur-2xl bg-gray-300 shadow-sm rounded-xl'>
-                    <button className='py-2 px-4 font-normal rounded bg-green-700 cursor-pointer text-gray-900'>Request Access</button>
+                    <button
+                        className='py-2 px-4 font-normal rounded bg-green-700 cursor-pointer text-gray-900'
+                        onClick={() => handleRequestAccess}
+                    >Request Access</button>
                     <X className='absolute top-2 right-2 text-red-500 cursor-pointer' onClick={() => setRequestCatalogue(false)} />
                 </span>
             </div>}

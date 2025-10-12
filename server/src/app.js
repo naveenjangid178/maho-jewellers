@@ -28,6 +28,7 @@ import productRouter from "./routes/product.routes.js"
 import blogRouter from "./routes/blog.routes.js"
 import testimonialRouter from "./routes/testimonial.routes.js"
 import sliderRouter from "./routes/slider.routes.js"
+import requestAccessRouter from "./routes/requestAccess.routes.js"
 
 // //Routes Declaration
 app.use("/api/v1/admin", adminRouter)
@@ -41,5 +42,6 @@ app.use("/api/v1/product", productRouter)
 app.use("/api/v1/blog", blogRouter)
 app.use("/api/v1/testimonial", testimonialRouter)
 app.use("/api/v1/slider", sliderRouter)
+app.use("/api/v1/request-access", requestAccessRouter)
 
 export { app }
