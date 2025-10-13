@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors"
-import {seedDefaultAdmin} from "./utils/seedAdmin.js"
+import { seedDefaultAdmin } from "./utils/seedAdmin.js"
 
 const app = express()
 
@@ -10,11 +10,26 @@ app.use(cors({
     credentials: true
 }))
 
-app.use(express.json({limit: "50kb"}))
-app.use(express.urlencoded({extended: true, limit: "50kb"}))
+app.use(express.json({ limit: "50kb" }))
+app.use(express.urlencoded({ extended: true, limit: "50kb" }))
 app.use(express.static("public"))
 app.use(cookieParser())
 seedDefaultAdmin();
+
+app.get('/webhook', (req, res) => {
+    const VERIFY_TOKEN = import.meta.env.META_SECRET;
+
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+
+    if (mode && token === VERIFY_TOKEN) {
+        console.log("WEBHOOK_VERIFIED");
+        res.status(200).send(challenge);
+    } else {
+        res.sendStatus(403);
+    }
+});
 
 //Routes import
 import adminRouter from "./routes/admin.routes.js"
