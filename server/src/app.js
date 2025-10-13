@@ -17,7 +17,7 @@ app.use(cookieParser())
 seedDefaultAdmin();
 
 app.get('/webhook', (req, res) => {
-    const VERIFY_TOKEN = import.meta.env.META_SECRET;
+    const VERIFY_TOKEN = process.env.META_SECRET;
 
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
