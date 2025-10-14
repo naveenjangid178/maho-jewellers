@@ -262,7 +262,7 @@ const createProductsFromExcel = async (req, res) => {
             const row = worksheet.getRow(rowNumber);
 
             const sku = row.getCell(1).value;
-            const productID = row.getCell(2).value;
+            const productCount = row.getCell(2).value;
             const netWeight = row.getCell(4).value;
             const grossWeight = row.getCell(5).value;
             const bead = row.getCell(6).value;
@@ -299,7 +299,7 @@ const createProductsFromExcel = async (req, res) => {
             // Create product
             const newProduct = new Product({
                 sku: sku ?? "Unnamed Product",
-                productID: productID,
+                productCount: productCount,
                 beads: bead,
                 netWeight: netWeight ?? 0,
                 grossWeight: grossWeight ?? 0,

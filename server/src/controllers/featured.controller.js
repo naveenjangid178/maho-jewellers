@@ -33,13 +33,13 @@ const createFeaturedProductsFromExcel = async (req, res) => {
             const row = worksheet.getRow(rowNumber);
 
             const sku = row.getCell(1).value;
-            const productID = row.getCell(2).value;
+            const productCount = row.getCell(2).value;
             const netWeight = row.getCell(4).value;
             const grossWeight = row.getCell(5).value;
             const bead = row.getCell(6).value;
             const imageBuffer = imageMap[rowNumber];
 
-            if (!sku || !productID || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
+            if (!sku || !productCount || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
                 console.log(`Skipping row ${rowNumber}: Missing required fields or image.`);
                 continue;
             }
@@ -64,7 +64,7 @@ const createFeaturedProductsFromExcel = async (req, res) => {
             // Prepare product for batch insert
             const newProduct = new Product({
                 sku,
-                productID,
+                productCount,
                 beads: bead,
                 netWeight: netWeight ?? 0,
                 grossWeight: grossWeight ?? 0,

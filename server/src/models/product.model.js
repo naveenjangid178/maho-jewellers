@@ -5,9 +5,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    productID: {
-        type: String,
-        required: true
+    productCount: {
+        type: Number,
+        required: true,
+        default: 0
     },
     beads: {
         type: String,

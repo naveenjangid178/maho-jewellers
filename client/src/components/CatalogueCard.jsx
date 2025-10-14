@@ -9,35 +9,35 @@ const CatalogueCard = ({ id, title, image, productCount }) => {
     const navigate = useNavigate()
     const [requestCatalogue, setRequestCatalogue] = useState(false)
 
-    const handleClick = async ({ id }) => {
-        const user = localStorage.getItem('user');
+    // const handleClick = async ({ id }) => {
+    //     const user = localStorage.getItem('user');
 
-        if (user) {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/user/${user}/allowed-catalogues`, {
-                    method: 'GET',
-                });
+    //     if (user) {
+    //         try {
+    //             const response = await fetch(`${import.meta.env.VITE_API_URL}/user/${user}/allowed-catalogues`, {
+    //                 method: 'GET',
+    //             });
 
-                const data = await response.json();
+    //             const data = await response.json();
 
-                if (response.ok) {
-                    const hasCatalogue = data.data.some(catalogue => String(catalogue.catalogue._id) === String(id));
+    //             if (response.ok) {
+    //                 const hasCatalogue = data.data.some(catalogue => String(catalogue.catalogue._id) === String(id));
 
-                    if (hasCatalogue) {
-                        navigate(`/catalogue/${id}`)
-                    } else {
-                        setRequestCatalogue(true);
-                    }
-                } else {
-                    console.error("Failed to fetch catalogues:", data.message);
-                }
-            } catch (error) {
-                console.error("Error fetching allowed catalogues:", error);
-            }
-        } else {
-            setIsPopupVisible(true);
-        }
-    };
+    //                 if (hasCatalogue) {
+    //                     navigate(`/catalogue/${id}`)
+    //                 } else {
+    //                     setRequestCatalogue(true);
+    //                 }
+    //             } else {
+    //                 console.error("Failed to fetch catalogues:", data.message);
+    //             }
+    //         } catch (error) {
+    //             console.error("Error fetching allowed catalogues:", error);
+    //         }
+    //     } else {
+    //         setIsPopupVisible(true);
+    //     }
+    // };
 
     const handleRequestAccess = async () => {
         const user = localStorage.getItem('user');
@@ -64,7 +64,8 @@ const CatalogueCard = ({ id, title, image, productCount }) => {
             <div
                 key={id}
                 className="border rounded-lg shadow hover:shadow-lg cursor-pointer transition p-2 flex flex-col gap-4 font-medium"
-                onClick={() => handleClick({ id })}
+                // onClick={() => handleClick({ id })}
+                onClick={() => navigate(`/catalogue/${id}`)}
             >
                 <img src={image} className='h-52 w-full object-fill object-center rounded' />
                 <div className="">

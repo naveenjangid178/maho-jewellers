@@ -4,6 +4,96 @@ import ExcelJS from "exceljs";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
 
+// const createNewProductsFromExcel = async (req, res) => {
+//     try {
+//         const file = req.file;
+
+//         if (!file || !file.buffer) {
+//             return res.status(400).json({ message: "Excel file is required." });
+//         }
+
+//         // Load workbook from buffer
+//         const workbook = new ExcelJS.Workbook();
+//         await workbook.xlsx.load(file.buffer);
+//         const worksheet = workbook.worksheets[0];
+
+//         // Map row numbers to image buffers
+//         const imageMap = {};
+//         worksheet.getImages().forEach(({ range, imageId }) => {
+//             const image = workbook.getImage(imageId);
+//             if (image && image.buffer) {
+//                 const row = range.tl.nativeRow + 1;
+//                 imageMap[row] = image.buffer;
+//             }
+//         });
+
+//         const createdProducts = [];
+
+//         // Loop through rows (starting from row 2 assuming row 1 is the header)
+//         for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
+//             const row = worksheet.getRow(rowNumber);
+
+//             const sku = row.getCell(1).value;
+//             const productCount = row.getCell(2).value;
+//             const netWeight = row.getCell(4).value;
+//             const grossWeight = row.getCell(5).value;
+//             const bead = row.getCell(6).value;
+//             const imageBuffer = imageMap[rowNumber];
+
+//             if (!sku || !productCount || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
+//                 console.log(`Skipping row ${rowNumber}: Missing required fields or image.`);
+//                 continue;
+//             }
+
+//             // Upload image to Cloudinary
+//             let imageUrl;
+//             try {
+//                 imageUrl = await uploadOnCloudinary(imageBuffer);
+//             } catch (err) {
+//                 console.error(`Row ${rowNumber} image upload failed:`, err.message);
+//                 continue;
+//             }
+
+//             // Create product and push the product instance to createdProducts
+//             const newProduct = new Product({
+//                 sku: sku ?? "Unnamed Product",
+//                 productCount: productCount,
+//                 beads: bead,
+//                 netWeight: netWeight ?? 0,
+//                 grossWeight: grossWeight ?? 0,
+//                 karat: "24K", // Default value, you can modify as needed
+//                 images: [imageUrl], // If you need to handle multiple images, modify as required
+//             });
+
+//             createdProducts.push(newProduct); // Push the instance into the array
+//         }
+
+//         // Insert products in batch into the database
+//         const savedProducts = await Product.insertMany(createdProducts);
+
+//         // Check if top product already exists
+//         let newProduct = await NewProduct.findOne();
+//         if (!newProduct) {
+//             newProduct = new NewProduct({ products: savedProducts.map(product => product._id) });
+//         } else {
+//             newProduct.products.push(...savedProducts.map(product => product._id));
+//         }
+
+//         await newProduct.save();
+
+//         return res.status(201).json({
+//             message: `${savedProducts.length} products created successfully.`,
+//             products: savedProducts,
+//         });
+//     } catch (error) {
+//         console.error("Error creating products from Excel:", error);
+//         return res.status(500).json({
+//             message: "An error occurred while processing the Excel file.",
+//             error: error.message,
+//         });
+//     }
+// };
+
 const createNewProductsFromExcel = async (req, res) => {
     try {
         const file = req.file;
@@ -12,7 +102,6 @@ const createNewProductsFromExcel = async (req, res) => {
             return res.status(400).json({ message: "Excel file is required." });
         }
 
-        // Load workbook from buffer
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.load(file.buffer);
         const worksheet = workbook.worksheets[0];
@@ -27,21 +116,29 @@ const createNewProductsFromExcel = async (req, res) => {
             }
         });
 
-        const createdProducts = [];
+        const newProductsToCreate = [];
+        const existingProductsToLink = [];
 
-        // Loop through rows (starting from row 2 assuming row 1 is the header)
         for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
             const row = worksheet.getRow(rowNumber);
 
             const sku = row.getCell(1).value;
-            const productID = row.getCell(2).value;
+            const productCount = row.getCell(2).value;
             const netWeight = row.getCell(4).value;
             const grossWeight = row.getCell(5).value;
             const bead = row.getCell(6).value;
             const imageBuffer = imageMap[rowNumber];
 
-            if (!sku || !productID || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
+            if (!sku || !productCount || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
                 console.log(`Skipping row ${rowNumber}: Missing required fields or image.`);
+                continue;
+            }
+
+            // ✅ Check for existing product by SKU
+            const existingProduct = await Product.findOne({ sku });
+            if (existingProduct) {
+                console.log(`SKU "${sku}" already exists. Linking to NewProduct and skipping creation.`);
+                existingProductsToLink.push(existingProduct._id);
                 continue;
             }
 
@@ -54,39 +151,53 @@ const createNewProductsFromExcel = async (req, res) => {
                 continue;
             }
 
-            // Create product and push the product instance to createdProducts
+            // Prepare product for batch insert
             const newProduct = new Product({
-                sku: sku ?? "Unnamed Product",
-                productID: productID,
+                sku,
+                productCount,
                 beads: bead,
                 netWeight: netWeight ?? 0,
                 grossWeight: grossWeight ?? 0,
-                karat: "24K", // Default value, you can modify as needed
-                images: [imageUrl], // If you need to handle multiple images, modify as required
+                karat: "24K",
+                images: [imageUrl],
             });
 
-            createdProducts.push(newProduct); // Push the instance into the array
+            newProductsToCreate.push(newProduct);
         }
 
-        // Insert products in batch into the database
-        const savedProducts = await Product.insertMany(createdProducts);
+        // Batch insert new products
+        const savedProducts = await Product.insertMany(newProductsToCreate);
 
-        // Check if top product already exists
+        // Find or create NewProduct document
         let newProduct = await NewProduct.findOne();
         if (!newProduct) {
-            newProduct = new NewProduct({ products: savedProducts.map(product => product._id) });
-        } else {
-            newProduct.products.push(...savedProducts.map(product => product._id));
+            newProduct = new NewProduct({ products: [] });
         }
 
-        await newProduct.save();
+        // Add both new and existing product IDs (avoid duplicates)
+        const allProductIds = [
+            ...savedProducts.map(p => p._id),
+            ...existingProductsToLink,
+        ];
+
+        // Avoid duplicates in the NewProduct list
+        const existingSet = new Set(NewProduct.products.map(id => id.toString()));
+        allProductIds.forEach(id => {
+            if (!existingSet.has(id.toString())) {
+                NewProduct.products.push(id);
+            }
+        });
+
+        await NewProduct.save();
 
         return res.status(201).json({
-            message: `${savedProducts.length} products created successfully.`,
-            products: savedProducts,
+            message: `${savedProducts.length} new products created. ${existingProductsToLink.length} existing products linked.`,
+            newProducts: savedProducts,
+            existingProducts: existingProductsToLink,
         });
+
     } catch (error) {
-        console.error("Error creating products from Excel:", error);
+        console.error("Error creating New products from Excel:", error);
         return res.status(500).json({
             message: "An error occurred while processing the Excel file.",
             error: error.message,

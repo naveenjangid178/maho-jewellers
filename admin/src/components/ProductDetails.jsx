@@ -87,7 +87,7 @@ function Pagination({ totalItems, itemsPerPage, currentPage, setCurrentPage }) {
 function EditModal({ product, onClose, onSave }) {
   const [formData, setFormData] = useState({
     sku: product.sku || '',
-    productID: product.productID || '',
+    productCount: product.productCount || '',
     beads: product.beads || '',
     netWeight: product.netWeight || '',
     grossWeight: product.grossWeight || '',
@@ -124,12 +124,13 @@ function EditModal({ product, onClose, onSave }) {
             className="w-full border rounded px-3 py-2"
           />
             <input
-              name="productID"
-              value={formData.productID}
-              onChange={handleChange}
-              placeholder="productID"
-              className="w-full border rounded px-3 py-2"
-            />
+            name="productCount"
+            value={formData.productCount}
+            onChange={handleChange}
+            placeholder="productCount"
+            type="number"
+            className="w-full border rounded px-3 py-2"
+          />
           <input
             name="beads"
             value={formData.beads}
@@ -245,7 +246,7 @@ function ProductDetails({ products, loading, editProduct, setEditProduct, handle
               )}
             </div>
             <div className="p-4 space-y-2">
-              <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">{product.productID}</h2>
+              <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">{product.productCount}</h2>
               <h2 className="text-lg font-semibold text-gray-800 line-clamp-2">{product.sku}</h2>
               <div className="flex justify-between items-center">
                 <span className="text-gray-500 text-sm">Net Weight <span className='font-bold'>{product.netWeight}</span></span>
