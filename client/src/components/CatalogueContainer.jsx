@@ -21,7 +21,7 @@ const CatalogueContainer = () => {
 
     return (
         <section className='md:px-12 px-4 py-8 flex text-center flex-col gap-8'>
-            <h3 className='text-[#9C1137] text-3xl font-medium py-4'>Catalogues</h3>
+            <h3 className='text-[#9C1137] text-3xl font-[Playfair-Display] font-semibold py-4'>Catalogues</h3>
             <div className='grid grid-cols-1 md:grid-cols-4 gap-12 justify-between'>
                 {catalogues.slice(0, 4).map((c) => <CatalogueCard id={c._id} title={c.title} image={c.image} productCount={c.productCount} />)}
             </div>

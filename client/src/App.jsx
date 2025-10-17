@@ -10,6 +10,7 @@ import Featured from "./pages/Featured"
 import Blog from "./pages/Blog"
 import BlogDetail from "./pages/BlogDetail"
 import CatalogueDetail from "./pages/CatalogueDetail"
+import PrivacyPolicy from "./utils/PrivacyPolicy"
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogDetail />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </PopupProvider>
     </BrowserRouter>

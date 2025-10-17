@@ -1,53 +1,45 @@
-import React, { useState } from 'react'
-import SearchInput from './SearchInput'
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';  // Import Link and useLocation
 import { Heart, Menu, ShoppingBag, X } from 'lucide-react';
 import Logo from './Logo';
 
 const Navbar = () => {
-    const [searchQuery, setSearchQuery] = useState("")
-    const [isMenuVisible, setIsMenuVisible] = useState(false)
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const location = useLocation();  // Get the current location (path)
+
     const menuItems = [
-        
-        {
-            name: "New In",
-            link: "/new-products"
-        },
-        {
-            name: "Collections",
-            link: "/catalogue"
-        },
-        {
-            name: "Blog",
-            link: "/blog"
-        },
-        {
-            name: "Shop",
-            link: "/cart"
-        },
-    ]
+        { name: "New In", link: "/new-products" },
+        { name: "Collections", link: "/catalogue" },
+        { name: "Blog", link: "/blog" },
+        { name: "Shop", link: "/cart" },
+    ];
 
     const handleClick = () => {
-        setIsMenuVisible(!isMenuVisible)
-    }
+        setIsMenuVisible(!isMenuVisible);
+    };
+
+    // Function to check if the link is active
+    const isActive = (link) => location.pathname === link;
 
     return (
         <nav className='md:px-12 px-4 md:p-4 p-2'>
             <div className='flex items-center gap-2 justify-between'>
                 <Logo width={75} />
                 <div className='md:flex hidden gap-8 justify-center p-2 opacity-60'>
-                {menuItems.map((menu) => (
-                    <a href={menu.link} key={menu.name}>{String(menu.name).toUpperCase()}</a>
-                ))}
-            </div>
-                {/* <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
-                <div className='flex gap-4 items-center'>
-                    <span className="relative cursor-pointer">
-                        <p className="absolute top-0 right-[-7px] bg-[#9C1137] rounded-full h-4 w-4 flex items-center justify-center text-white text-xs">
-                            4
-                        </p>
-                        <Heart height={34} />
-                    </span>
+                    {menuItems.map((menu) => (
+                        <Link 
+                            to={menu.link} 
+                            key={menu.name} 
+                            className={`font-[BBH-Sans-Bogle] font-semibold hover:text-black text-[1.1rem] ${
+                                isActive(menu.link) ? 'text-black font-bold' : 'text-gray-800'
+                            }`}
+                        >
+                            {String(menu.name).toUpperCase()}
+                        </Link>
+                    ))}
+                </div>
 
+                <div className='flex gap-4 items-center'>
                     <span className="relative cursor-pointer">
                         <p className="absolute top-[-6px] right-[-7px] bg-[#9C1137] rounded-full h-4 w-4 flex items-center justify-center text-white text-xs">
                             4
@@ -59,20 +51,27 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {
-                isMenuVisible && <div
-                    className={`flex flex-col bg-transparent gap-8 justify-center p-2 opacity-0 transform transition-transform duration-700 ease-out ${isMenuVisible
-                        ? 'translate-x-0 opacity-100'
-                        : 'translate-x-full opacity-0'
-                        }`}
+            {isMenuVisible && (
+                <div
+                    className={`flex flex-col bg-transparent gap-8 justify-center p-2 opacity-0 transform transition-transform duration-700 ease-out ${
+                        isMenuVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+                    }`}
                 >
                     {menuItems.map((menu) => (
-                        <a href={menu.link}>{String(menu.name).toUpperCase()}</a>
+                        <Link
+                            to={menu.link}
+                            className={`${
+                                isActive(menu.link) ? 'text-black font-bold' : 'text-gray-600'
+                            }`}
+                            key={menu.name}
+                        >
+                            {String(menu.name).toUpperCase()}
+                        </Link>
                     ))}
                 </div>
-            }
+            )}
         </nav>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;

@@ -63,7 +63,7 @@ const CatalogueCard = ({ id, title, image, productCount }) => {
         <>
             <div
                 key={id}
-                className="border rounded-lg shadow hover:shadow-lg cursor-pointer transition p-2 flex flex-col gap-4 font-medium"
+                className="text-center flex flex-col gap-2 shadow-xs shadow-gray-500 bg-transparent backdrop-blur-2xl p-2 rounded"
                 // onClick={() => handleClick({ id })}
                 onClick={() => navigate(`/catalogue/${id}`)}
             >

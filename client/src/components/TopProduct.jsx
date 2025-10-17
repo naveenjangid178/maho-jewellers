@@ -22,7 +22,7 @@ const TopProduct = () => {
     
     return (
         <section className='md:px-12 px-4 py-8 flex text-center flex-col gap-8'>
-            <h3 className='text-[#9C1137] text-3xl font-medium py-4'>Top Product</h3>
+            <h3 className='text-[#9C1137] text-3xl py-4 font-[Playfair-Display] font-semibold'>Top Product</h3>
             <div className='grid grid-cols-1 md:grid-cols-4 gap-12 justify-between'>
                 {topProduct.slice(0, 4).map((items, i) => <ShoppingCard name={items.sku} image={items.images[0]} index={i} price={items.netWeight} />)}
             </div>

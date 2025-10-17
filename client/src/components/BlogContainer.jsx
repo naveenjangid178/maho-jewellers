@@ -21,7 +21,7 @@ const BlogContainer = () => {
 
     return (
         <section className='md:px-12 px-4 py-8 flex text-center flex-col gap-8'>
-            <h3 className='text-[#9C1137] text-3xl font-medium py-4'>Blogs</h3>
+            <h3 className='text-[#9C1137] text-3xl font-[Playfair-Display] font-semibold py-4'>Blogs</h3>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-12 justify-between'>
                 {blogs.slice(0, 3).map((items, i) => <BlogCard heading={items.title} image={items.image} index={i} title={`${items.content.slice(0, 150)}.....`} id={items._id} />)}
             </div>
