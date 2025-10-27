@@ -15,7 +15,7 @@ cloudinary.config({
  * @param {number} sizeLimit
  * @returns {Promise<Buffer>}
  */
-const compressImage = async (inputBuffer, sizeLimit = 100 * 1024) => {
+const compressImage = async (inputBuffer, sizeLimit = 300 * 1024) => {
   let quality = 80;
   let buffer = await sharp(inputBuffer)
     .resize(800, 800, { fit: "inside" })
