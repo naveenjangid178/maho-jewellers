@@ -24,7 +24,7 @@ const Navbar = () => {
     return (
         <nav className='md:px-12 px-4 md:p-4 p-2'>
             <div className='flex items-center gap-2 justify-between'>
-                <Logo width={75} />
+                <Logo width={50} />
                 <div className='md:flex hidden gap-8 justify-center p-2 opacity-60'>
                     {menuItems.map((menu) => (
                         <Link 
@@ -41,9 +41,9 @@ const Navbar = () => {
 
                 <div className='flex gap-4 items-center'>
                     <span className="relative cursor-pointer">
-                        <p className="absolute top-[-6px] right-[-7px] bg-[#9C1137] rounded-full h-4 w-4 flex items-center justify-center text-white text-xs">
+                        {/* <p className="absolute top-[-6px] right-[-7px] bg-[#9C1137] rounded-full h-4 w-4 flex items-center justify-center text-white text-xs">
                             4
-                        </p>
+                        </p> */}
                         <ShoppingBag height={21} />
                     </span>
 

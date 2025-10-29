@@ -1,7 +1,7 @@
 import { ShoppingBag } from 'lucide-react'
 import Tilt from "react-parallax-tilt";
 
-const ShoppingCard = ({ name, index, image, price }) => {
+const ShoppingCard = ({ name, index, image, grossWeight, netWeight }) => {
     return (
         <Tilt
             glareEnable={true}
@@ -9,11 +9,14 @@ const ShoppingCard = ({ name, index, image, price }) => {
             transitionSpeed={2500}
             tiltMaxAngleX={10}
             tiltMaxAngleY={10}
-            key={index} 
-            className="text-center flex flex-col gap-2 shadow-xs shadow-gray-500 bg-transparent backdrop-blur-2xl p-4 rounded">
+            key={index}
+            className="text-center flex flex-col gap-2 shadow-xs shadow-gray-500 bg-transparent backdrop-blur-2xl rounded">
             <img src={image} alt={name} className="w-full h-52 object-center mb-2" />
-            <p className='text-[#9C1137] text-start pt-2'>{price}</p>
-            <span className='flex justify-between items-center'>
+            <span className='pt-2 px-3'>
+                <p className='text-start pt-2'>Net Weight: {netWeight}</p>
+                <p className='text-start pt-2'>Gross Weight: {grossWeight}</p>
+            </span>
+            <span className='flex justify-between items-center px-3 pb-4'>
                 <p className='text-[#383434]'>{name}</p>
                 <ShoppingBag className='text-[#9C1137] cursor-pointer' />
             </span>
