@@ -39,8 +39,8 @@ const CatalogueDetail = () => {
             <Navbar />
             <section className='md:px-12 px-4 py-8 flex text-center flex-col gap-8'>
                 <h2 className='text-2xl font-bold pb-4'>{title}</h2>
-                <div className='grid grid-cols-1 md:grid-cols-4 gap-12 justify-between'>
-                    {products.map((items, i) => <ShoppingCard name={items.sku} image={items.images[0]} index={i} price={items.netWeight} />)}
+                <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 md:justify-between justify-items-center'>
+                    {products.map((items, i) => <ShoppingCard name={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}
                 </div>
             </section>
         </>

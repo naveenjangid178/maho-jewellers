@@ -2,10 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const ImageSlider = () => {
-    const [currentIndex, setCurrentIndex] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(1); // Initial index set to 1
     const [isTransitioning, setIsTransitioning] = useState(true);
     const [sliderImages, setSliderImages] = useState([]);
     const sliderRef = useRef(null);
+
+    // Variables for swipe functionality
+    const touchStartX = useRef(0);
+    const touchEndX = useRef(0);
 
     // Fetch images from API
     useEffect(() => {
@@ -41,7 +45,13 @@ const ImageSlider = () => {
     const slideNext = () => {
         if (currentIndex >= totalSlides + 1) return;
         setIsTransitioning(true);
-        setCurrentIndex(prev => prev + 1);
+        setCurrentIndex((prev) => prev + 1);
+    };
+
+    const slidePrev = () => {
+        if (currentIndex <= 0) return;
+        setIsTransitioning(true);
+        setCurrentIndex((prev) => prev - 1);
     };
 
     const handleDotClick = (index) => {
@@ -59,8 +69,41 @@ const ImageSlider = () => {
         }
     };
 
+    // Mouse wheel event handler
+    const handleWheel = (e) => {
+        if (e.deltaY > 0) {
+            slideNext();
+        } else {
+            slidePrev();
+        }
+    };
+
+    // Touch event handlers for swipe
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.changedTouches[0].screenX;
+    };
+
+    const handleTouchMove = (e) => {
+        touchEndX.current = e.changedTouches[0].screenX;
+    };
+
+    const handleTouchEnd = () => {
+        if (touchStartX.current - touchEndX.current > 50) {
+            slideNext(); // Swipe left to go to next slide
+        }
+        if (touchEndX.current - touchStartX.current > 50) {
+            slidePrev(); // Swipe right to go to previous slide
+        }
+    };
+
     return (
-        <div className="relative w-full h-90 overflow-hidden">
+        <div
+            className="relative w-full overflow-hidden"
+            onWheel={handleWheel} // Add mouse wheel support
+            onTouchStart={handleTouchStart} // Add touch start event
+            onTouchMove={handleTouchMove} // Add touch move event
+            onTouchEnd={handleTouchEnd} // Add touch end event
+        >
             {/* Slide Container */}
             <div
                 ref={sliderRef}
@@ -76,7 +119,7 @@ const ImageSlider = () => {
                         <img
                             src={image?.imageUrl}
                             alt={`Slide ${index}`}
-                            className="w-full h-full object-cover"
+                            className="w-screen object-center" // Make image take full width and height
                         />
                     </div>
                 ))}
