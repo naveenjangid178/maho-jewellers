@@ -45,7 +45,8 @@ const uploadOnCloudinary = async (fileBuffer) => {
   }
 
   try {
-    const compressedBuffer = await compressImage(fileBuffer);
+    // const compressedBuffer = await compressImage(fileBuffer);
+    const compressedBuffer = fileBuffer;
 
     return new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
