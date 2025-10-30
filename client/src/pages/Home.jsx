@@ -26,9 +26,16 @@ const Home = () => {
       <VideoContainer />
       <Testimonials />
       <Footer />
-      <span className='fixed bottom-4 right-4 bg-green-500 p-2 rounded font-thin text-sm text-green-900 flex items-center gap-1 cursor-pointer'>
-        <MessageCircleCode />Chat on WhatsApp
-      </span>
+      <a
+        href="https://wa.me/918824891530"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-4 right-4 bg-green-500 p-2 rounded font-thin text-sm text-green-900 flex items-center gap-1 cursor-pointer"
+      >
+        <MessageCircleCode />
+        Chat on WhatsApp
+      </a>
+
     </div>
   )
 }
