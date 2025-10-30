@@ -24,7 +24,7 @@ const NewArrivals = () => {
         <>
         <Navbar />
         <section className='md:px-12 px-4 py-8 flex text-center flex-col gap-8'>
-            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 md:justify-between justify-items-center'>
+            <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-12 md:justify-between justify-items-center'>
                 {topProduct.map((items, i) => <ShoppingCard name={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}
             </div>
         </section>

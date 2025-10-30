@@ -1,5 +1,5 @@
 import { Slider } from "../models/slider.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js"
+import { uploadOnCloudinary } from "../utils/cloudinaryforslider.js"
 
 const createSliderImage = async (req, res) => {
     try {
