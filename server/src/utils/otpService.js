@@ -26,38 +26,57 @@ const sendSMS = async (phoneNumber, message) => {
 
 const WHATSAPP_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
+const WHATSAPP_BUSINESS_ACCOUNT_ID = process.env.WHATSAPP_BUSINESS_ACCOUNT_ID
 
 async function sendOTP(to, otp) {
   try {
     const response = await axios.post(
-      `https://graph.facebook.com/v20.0/${PHONE_NUMBER_ID}/messages`,
+      `https://graph.facebook.com/v24.0/${PHONE_NUMBER_ID}/messages`,
       {
-        messaging_product: 'whatsapp',
-        to: to, // e.g., "919876543210"
-        type: 'template',
+        messaging_product: "whatsapp",
+        to: to,
+        type: "template",
         template: {
-          name: 'otp_message',
-          language: { code: 'en' },
+          name: "whatsapp_otp", // your approved template name
+          language: { code: "en" },
           components: [
             {
-              type: 'body',
-              parameters: [{ type: 'text', text: otp }]
+              type: "body",
+              parameters: [
+                {
+                  type: "text",
+                  text: otp, // OTP to send
+                },
+              ],
+            },
+            {
+              "type": "button",
+              "sub_type": "url",
+              "index": "0",
+              "parameters": [
+                {
+                  "type": "text",
+                  "text": otp
+                }
+              ]
             }
-          ]
-        }
+          ],
+        },
       },
       {
         headers: {
           Authorization: `Bearer ${WHATSAPP_TOKEN}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
-    console.log('OTP sent successfully:', response.data);
+
+    console.log("✅ OTP sent successfully:", response.data);
   } catch (err) {
-    console.error('Error sending OTP:', err.response?.data || err.message);
+    console.error("❌ Error sending OTP:", err.response?.data || err.message);
   }
 }
+
 
 export {
   generateOTP,

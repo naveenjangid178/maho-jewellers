@@ -15,7 +15,7 @@ import { MessageCircleCode } from 'lucide-react'
 const Home = () => {
   return (
     <div>
-      {/* <Popup /> */}
+      <Popup />
       <Navbar />
       <ImageSlider />
       <TopProduct />
