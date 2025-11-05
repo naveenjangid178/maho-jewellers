@@ -14,6 +14,7 @@ function Products() {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/product/`);
         setProducts(response.data.products);
+        console.log(response)
       } catch (err) {
         console.error('Failed to fetch products:', err);
       } finally {

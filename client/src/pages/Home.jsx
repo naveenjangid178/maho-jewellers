@@ -15,7 +15,7 @@ import { MessageCircleCode } from 'lucide-react'
 const Home = () => {
   return (
     <div>
-      <Popup />
+      {/* <Popup /> */}
       <Navbar />
       <ImageSlider />
       <TopProduct />
@@ -30,7 +30,7 @@ const Home = () => {
         href="https://wa.me/918824891530"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-4 right-4 bg-green-500 p-2 rounded font-thin text-sm text-green-900 flex items-center gap-1 cursor-pointer"
+        className="fixed bottom-4 right-4 font-[Platypi] bg-green-500 p-2 rounded font-thin text-sm text-green-900 flex items-center gap-1 cursor-pointer"
       >
         <MessageCircleCode />
         Chat on WhatsApp

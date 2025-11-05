@@ -89,6 +89,8 @@ function EditModal({ product, onClose, onSave }) {
     sku: product.sku || '',
     productCount: product.productCount || '',
     beads: product.beads || '',
+    name: product.beads || '',
+    description: product.beads || '',
     netWeight: product.netWeight || '',
     grossWeight: product.grossWeight || '',
   });
@@ -136,6 +138,20 @@ function EditModal({ product, onClose, onSave }) {
             value={formData.beads}
             onChange={handleChange}
             placeholder="beads"
+            className="w-full border rounded px-3 py-2"
+          />
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="name"
+            className="w-full border rounded px-3 py-2"
+          />
+          <input
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="desription"
             className="w-full border rounded px-3 py-2"
           />
           <input
@@ -253,7 +269,9 @@ function ProductDetails({ products, loading, editProduct, setEditProduct, handle
                 <span className="text-sm text-gray-500">Gross Weight <span className='font-bold'>{product.grossWeight}</span></span>
               </div>
               <div className="flex justify-between items-center text-xs text-gray-600">
-                <span>{product.beads}</span>
+                <span>{product.name}</span>
+                <span>{product.beads}</span>  
+                <span>{product.description}</span>
               </div>
               <div className="flex justify-end space-x-2 pt-2">
                 <button onClick={() => setEditProduct(product)} className="text-blue-500 hover:text-blue-700">

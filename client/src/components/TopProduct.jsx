@@ -21,10 +21,10 @@ const TopProduct = () => {
     }, []);
     
     return (
-        <section className='md:px-12 px-4 py-8 flex text-center flex-col gap-8'>
-            <h3 className='text-[#9C1137] text-3xl py-4 font-[Playfair-Display] font-semibold'>Top Product</h3>
+        <section className='md:px-12 px-4 py-8 flex flex-col gap-8'>
+            <h3 className='text-[#9C1137] text-3xl py-4 font-[Platypi]'>Top Product</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-12 md:justify-between justify-items-center'>
-                {topProduct.slice(0, 5).map((items, i) => <ShoppingCard name={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}
+                {topProduct.slice(0, 5).map((items, i) => <ShoppingCard name={items.name} sku={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}
             </div>
             <span className='py-1 border border-[#9C1137] w-fit m-auto mt-8'>
                 <button

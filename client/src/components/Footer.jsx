@@ -22,7 +22,7 @@ const Footer = () => {
 
     return (
         <footer>
-            <div className='bg-[#F6F3EE] py-2 md:px-12 px-4'>
+            <div className='bg-[#F6F3EE] font-[Platypi] py-2 md:px-12 px-4'>
                 <div className='flex md:flex-row flex-col md:gap-20 gap-4 py-4 md:py-12'>
                     <Logo width={75} />
                     <div className='flex md:flex-row flex-col gap-4 justify-between w-full'>

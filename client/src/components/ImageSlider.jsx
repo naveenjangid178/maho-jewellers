@@ -118,7 +118,7 @@ const ImageSlider = () => {
 
     return ( 
         <div 
-            className="relative w-full overflow-hidden" 
+            className="relative w-full overflow-hidden bg-[#F6F3EE]" 
             // Mouse events
             onMouseDown={handleMouseDown} // Mouse down event to start dragging
             onMouseMove={handleMouseMove} // Mouse move event to move slider while dragging
@@ -144,7 +144,7 @@ const ImageSlider = () => {
                         <img 
                             src={image?.imageUrl} 
                             alt={`Slide ${index}`} 
-                            className="w-screen object-center lg:h-132" // Make image take full width and height 
+                            className="w-screen object-fill lg:h-132 md:px-12 px-4" // Make image take full width and height 
                         /> 
                     </div> 
                 ))} 

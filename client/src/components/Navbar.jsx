@@ -11,7 +11,7 @@ const Navbar = () => {
         { name: "New In", link: "/new-products" },
         { name: "Collections", link: "/catalogue" },
         { name: "Blog", link: "/blog" },
-        { name: "Shop", link: "/cart" },
+        // { name: "Shop", link: "/cart" },
     ];
 
     const handleClick = () => {
@@ -30,7 +30,7 @@ const Navbar = () => {
                         <Link 
                             to={menu.link} 
                             key={menu.name} 
-                            className={`font-[BBH-Sans-Bogle] font-semibold hover:text-black text-[1.1rem] ${
+                            className={`font-[Platypi] font-semibold hover:text-black text-[1.1rem] ${
                                 isActive(menu.link) ? 'text-black font-bold' : 'text-gray-800'
                             }`}
                         >

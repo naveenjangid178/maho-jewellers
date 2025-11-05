@@ -37,6 +37,8 @@ const createFeaturedProductsFromExcel = async (req, res) => {
             const netWeight = row.getCell(4).value;
             const grossWeight = row.getCell(5).value;
             const bead = row.getCell(6).value;
+            const name = row.getCell(7).value;
+            const description = row.getCell(8).value;
             const imageBuffer = imageMap[rowNumber];
 
             if (!sku || !productCount || !imageBuffer || !Buffer.isBuffer(imageBuffer)) {
@@ -66,6 +68,8 @@ const createFeaturedProductsFromExcel = async (req, res) => {
                 sku,
                 productCount,
                 beads: bead,
+                name : name ?? '',
+                description: description ?? '',
                 netWeight: netWeight ?? 0,
                 grossWeight: grossWeight ?? 0,
                 karat: "24K",
@@ -120,7 +124,7 @@ const getFeaturedProducts = async (req, res) => {
         // Find the featured catalog
         const featured = await Featured.findOne().populate({
             path: "products", // Populate the 'products' field with the Product details
-            select: "sku productID beads netWeight grossWeight karat images", // Choose the fields to return for each product
+            select: "sku productID beads netWeight grossWeight karat images name description", // Choose the fields to return for each product
         });
 
         if (!featured || featured.products.length === 0) {

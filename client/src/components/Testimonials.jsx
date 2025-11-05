@@ -20,7 +20,7 @@ export function Testimonials() {
     return (
         <div
             className="h-[30rem] justify-around rounded-md flex flex-col antialiased bg-white items-center relative overflow-hidden">
-            <h2 className="md:text-3xl text-2xl font-[Playfair-Display] font-semibold">Trusted by our community</h2>
+            <h2 className="md:text-3xl text-2xl font-[Platypi]">Trusted by our community</h2>
             <InfiniteMovingCards items={testimonials} direction="left" speed="slow" />
         </div>
     );

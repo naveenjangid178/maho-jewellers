@@ -266,6 +266,8 @@ const createProductsFromExcel = async (req, res) => {
             const netWeight = row.getCell(4).value;
             const grossWeight = row.getCell(5).value;
             const bead = row.getCell(6).value;
+            const name = row.getCell(7).value;
+            const description = row.getCell(8).value;
             const imageBuffer = imageMap[rowNumber];
 
             const existingProduct = await Product.findOne({ sku });
@@ -301,6 +303,8 @@ const createProductsFromExcel = async (req, res) => {
                 sku: sku ?? "Unnamed Product",
                 productCount: productCount,
                 beads: bead,
+                name : name ?? '',
+                description: description ?? '',
                 netWeight: netWeight ?? 0,
                 grossWeight: grossWeight ?? 0,
                 karat: "24K",
