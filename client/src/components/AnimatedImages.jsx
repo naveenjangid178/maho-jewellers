@@ -55,7 +55,9 @@ const AnimatedImages = () => {
         <div className="bg-[#f3ecde] md:mx-12 mx-4 rounded my-4 flex flex-col md:flex-row justify-around gap-12 pt-12 md:px-20 px-4">
             <div className=" flex flex-col gap-4 md:justify-center md:max-w-1/2">
                 <h3 className="md:text-4xl text-2xl font-medium">Masterfully crafted in India</h3>
-                <p className="text-gray-800 text-xl">JSS Shop features Anushree’s exclusive designs and rare antique finds from across India. Each handcrafted piece is truly one-of-a-kind.</p>
+                <p className="text-gray-800 text-xl">
+                    Browse our complete collection featuring handcrafted Polki, Kundan, and heritage-inspired jewelry. Explore every design, from timeless classics to modern signature pieces—crafted to celebrate your unique style.
+                </p>
                 <button
                             className='text-white bg-[#262626] text-center hover:font-medium py-3 px-8 font-normal max-w-36 rounded cursor-pointer transform duration-100 ease-in-out'
                             onClick={() => navigate("/new-products")}

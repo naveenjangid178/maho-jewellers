@@ -30,7 +30,9 @@ const TopProduct = () => {
                         <h3 className='text-3xl'>Best Sellers</h3>
                     </span>
                     <span className='flex flex-col gap-4'>
-                        <p>Get charmed by JSS bestseller - Earcuffs, Ear crawlers, and Hair jewellery, where timeless elegance meets expert craftsmanship.</p>
+                        <p>
+                            Our Best Sellers represent the artistry that defines us—handcrafted Polki & Kundan jewels made to be treasured forever. Loved for their grace, heritage, and statement beauty.
+                        </p>
                         <button
                             className='text-white bg-[#262626] text-center hover:font-medium py-3 px-8 font-normal max-w-36 rounded cursor-pointer transform duration-100 ease-in-out'
                             onClick={() => navigate("/top-products")}

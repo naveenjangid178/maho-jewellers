@@ -6,13 +6,13 @@ const slides = [
     image: "f1.jpg",
     title: "JSS Jewellers",
     description:
-      "Eterno Jewellery is a brand that specialises in creating handcrafted jewellery pieces that embody timeless elegance and enduring beauty.",
+      "JSS Jewelers is rooted in the royal legacy of Jaipur. Specializing in Polki and handcrafted Kundan jewelry, our pieces are created by master artisans using age-old techniques passed down through generations. Every design reflects timeless heritage, refined beauty, and the celebration of life’s most precious moments.",
   },
   {
     image: "f2.jpg",
     title: "JSS Jewellers",
     description:
-      "Eterno by Anushree is known for dramatic fashion jewellery with an artisanal appeal. Explore the much talked about designer jewellery online.",
+      "JSS Jewelers is rooted in the royal legacy of Jaipur. Specializing in Polki and handcrafted Kundan jewelry, our pieces are created by master artisans using age-old techniques passed down through generations. Every design reflects timeless heritage, refined beauty, and the celebration of life’s most precious moments.",
   },
 ];
 

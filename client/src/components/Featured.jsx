@@ -26,10 +26,12 @@ const Featured = () => {
                 <div className="md:min-w-65 min-w-full max-w-72 min-h-100 py-10 bg-[#f3ecde] rounded p-4 flex flex-col justify-between">
                     <span className='flex flex-col gap-1'>
                         <p className='font-thin text-sm text-gray-700'>The Hot Pics</p>
-                        <h3 className='text-3xl'>Best Sellers</h3>
+                        <h3 className='text-3xl'>Featured Products</h3>
                     </span>
                     <span className='flex flex-col gap-4'>
-                        <p>Get charmed by JSS bestseller - Earcuffs, Ear crawlers, and Hair jewellery, where timeless elegance meets expert craftsmanship.</p>
+                        <p>
+                            A curated selection of our most distinguished designs. Handcrafted with timeless artistry, each piece reflects the essence of Jaipur’s royal heritage.
+                        </p>
                         <button
                             className='text-white bg-[#262626] text-center hover:font-medium py-3 px-8 font-normal max-w-36 rounded cursor-pointer transform duration-100 ease-in-out'
                             onClick={() => navigate("/featured-products")}
