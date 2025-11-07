@@ -11,6 +11,9 @@ import Featured from '../components/Featured'
 import CatalogueContainer from '../components/CatalogueContainer'
 import VideoContainer from '../components/VideoContainer'
 import { MessageCircleCode } from 'lucide-react'
+import AnimatedImages from '../components/AnimatedImages'
+import About from '../components/About'
+import ImageContainer from '../components/ImageContainer'
 
 const Home = () => {
   return (
@@ -23,6 +26,9 @@ const Home = () => {
       <CatalogueContainer />
       <Featured />
       <BlogContainer />
+      <AnimatedImages />
+      <ImageContainer />
+      <About />
       <VideoContainer />
       <Testimonials />
       <Footer />

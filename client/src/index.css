@@ -14,3 +14,12 @@
 body{
   font-family: "Playfair Display", serif;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* For IE and Edge */
+    scrollbar-width: none;  /* For Firefox */
+  }
