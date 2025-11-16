@@ -3,15 +3,18 @@ import { newArrivals } from '../details'
 import ShoppingCard from './ShoppingCard'
 import { useNavigate } from 'react-router-dom'
 import { getTopProduct } from '../utils/topProduct'
+import { useProductList } from '../context/ProductListContext'
 
 const TopProduct = () => {
     const navigate = useNavigate()
     const [topProduct, setTopProduct] = useState([])
+    const { setProductsForDetail } = useProductList();
 
     useEffect(() => {
         async function fetchCatalogues() {
             try {
                 const response = await getTopProduct();
+                setProductsForDetail(response);
                 setTopProduct(response);
             } catch (error) {
                 console.error('Error fetching top product:', error);
@@ -21,9 +24,9 @@ const TopProduct = () => {
     }, []);
 
     return (
-        <section className='md:px-12 px-4 py-8 flex flex-col gap-8'>
+        <section className='md:px-24 px-4 py-8 flex flex-col gap-8'>
             <h3 className='text-[#9C1137] text-3xl py-4 font-[Platypi]'>Top Product</h3>
-            <div className='flex overflow-x-auto md:overflow-visible gap-2 md:gap-12 md:justify-between justify-items-center'>
+            <div className='flex overflow-x-auto md:overflow-visible gap-2 md:gap-8 md:justify-between justify-items-center'>
                 <div className="md:min-w-65 min-w-full max-w-72 min-h-100 py-10 bg-[#f3ecde] rounded p-4 flex flex-col justify-between">
                     <span className='flex flex-col gap-1'>
                         <p className='font-thin text-sm text-gray-700'>The Hot Pics</p>
@@ -39,7 +42,7 @@ const TopProduct = () => {
                         >Shop Now</button>
                     </span>
                 </div>
-                {topProduct.slice(0, 3).map((items, i) => <ShoppingCard name={items.name} sku={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}
+                {topProduct.slice(0, 3).map((items, i) => <ShoppingCard id={items._id} name={items.name} sku={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}
             </div>
         </section>
     )

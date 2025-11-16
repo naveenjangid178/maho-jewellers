@@ -144,7 +144,7 @@ const ImageSlider = () => {
                         <img 
                             src={image?.imageUrl} 
                             alt={`Slide ${index}`} 
-                            className="w-screen object-fill lg:h-162 md:px-12 px-4" // Make image take full width and height 
+                            className="w-screen md:px-24 px-4" // Make image take full width and height 
                         /> 
                     </div> 
                 ))} 

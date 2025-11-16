@@ -4,6 +4,7 @@ import { apiResponse } from "../utils/apiResponse.js"
 import { User } from "../models/user.model.js"
 import { generateOTP, sendSMS, sendOTP } from "../utils/otpService.js"
 import mongoose from "mongoose"
+import { RequestAccess } from "../models/requestAccess.model.js"
 
 const loginUser = asyncHandler(async (req, res) => {
     const { phone } = req.body
@@ -179,11 +180,60 @@ const updateUserCatalogues = asyncHandler(async (req, res) => {
     );
 });
 
+const updateUserRequestCatalogues = asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { catalogue, expiresAt, requestId } = req.body;
+
+    if (!catalogue || !mongoose.Types.ObjectId.isValid(catalogue)) {
+        throw new apiError(400, 'catalogue must be a valid ObjectId');
+    }
+
+    if (!requestId || !mongoose.Types.ObjectId.isValid(requestId)) {
+        throw new apiError(400, 'requestId must be a valid ObjectId');
+    }
+
+    // expiresAt must be null OR a valid date
+    if (expiresAt !== null && isNaN(Date.parse(expiresAt))) {
+        throw new apiError(400, 'expiresAt must be a valid date or null for lifetime');
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new apiError(404, 'User not found');
+    }
+
+    // Check if catalogue already exists
+    const alreadyExists = user.allowedCatalogues.some(
+        (item) => item.catalogue.toString() === catalogue
+    );
+
+    if (alreadyExists) {
+        throw new apiError(400, 'This catalogue is already allowed for this user');
+    }
+
+    // Add catalogue access
+    user.allowedCatalogues.push({
+        catalogue,
+        expiresAt: expiresAt ? new Date(expiresAt) : null,
+    });
+
+    await user.save();
+
+    // DELETE the request after approval
+    await RequestAccess.findByIdAndDelete(requestId);
+
+    return res.status(200).json(
+        new apiResponse(200, user, '✅ Catalogue added & request deleted successfully')
+    );
+});
+
+
 
 export {
     loginUser,
     verifyOtp,
     getAllUsers,
     getUserAllowedCatalogues,
-    updateUserCatalogues
+    updateUserCatalogues,
+    updateUserRequestCatalogues
 }

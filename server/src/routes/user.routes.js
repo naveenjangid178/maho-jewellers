@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUsers, getUserAllowedCatalogues, loginUser, updateUserCatalogues, verifyOtp } from "../controllers/user.controller.js";
+import { getAllUsers, getUserAllowedCatalogues, loginUser, updateUserCatalogues, updateUserRequestCatalogues, verifyOtp } from "../controllers/user.controller.js";
 import { createUserProductView } from "../controllers/userProductView.controller.js";
 
 const router = Router()
@@ -11,5 +11,6 @@ router.route("/").get(getAllUsers)
 router.get('/:userId/allowed-catalogues', getUserAllowedCatalogues);
 router.route("/product-view").post(createUserProductView)
 router.put('/:id/catalogues', updateUserCatalogues);
+router.put('/:id/request-catalogues', updateUserRequestCatalogues);
 
 export default router;

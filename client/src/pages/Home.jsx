@@ -18,14 +18,14 @@ import ImageContainer from '../components/ImageContainer'
 const Home = () => {
   return (
     <div>
-      {/* <Popup /> */}
+      <Popup />
       <Navbar />
       <ImageSlider />
       <TopProduct />
       <NewArrivals />
       <CatalogueContainer />
       <Featured />
-      <BlogContainer />
+      {/* <BlogContainer /> */}
       <AnimatedImages />
       <ImageContainer />
       <About />
@@ -36,7 +36,7 @@ const Home = () => {
         href="https://wa.me/918824891530"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-4 right-4 font-[Platypi] bg-green-500 p-2 rounded font-thin text-sm text-green-900 flex items-center gap-1 cursor-pointer"
+        className="fixed bottom-4 right-4 z-50 font-[Platypi] bg-green-500 p-2 rounded font-thin text-sm text-green-900 flex items-center gap-1 cursor-pointer"
       >
         <MessageCircleCode />
         Chat on WhatsApp

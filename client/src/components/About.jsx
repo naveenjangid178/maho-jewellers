@@ -70,7 +70,7 @@ const About = () => {
   };
 
   return (
-    <div className="relative max-w-full md:max-w-6xl rounded-lg overflow-hidden flex flex-col md:flex-row h-[450px] gap-8 md:h-[500px] md:mx-12 mx-4 p-4">
+    <div className="relative max-w-full md:min-h-screen md:max-w-6xl rounded-lg overflow-hidden flex flex-col md:flex-row h-[450px] gap-8 md:h-[500px] md:mx-24 mx-4 p-4">
       {/* TEXT SECTION */}
       <div className="relative flex-1 flex flex-col justify-center md:p-10 overflow-hidden">
         <h3 className="absolute md:top-30 top-0 left-0 md:left-10 text-sm font-medium">ABOUT US</h3>
@@ -95,7 +95,7 @@ const About = () => {
       </div>
 
       {/* IMAGE SECTION */}
-      <div className="relative flex-1 h-[250px] md:h-full overflow-hidden">
+      <div className="relative flex-1 h-[250px] md:min-h-120 overflow-hidden">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
             key={index}
@@ -106,7 +106,7 @@ const About = () => {
             initial="enter"
             animate="center"
             exit="exit"
-            className="absolute inset-0 w-fit h-fit md:top-20 rounded object-contain"
+            className="absolute inset-0 w-fit h-100 md:top-20 rounded object-contain"
           />
         </AnimatePresence>
 

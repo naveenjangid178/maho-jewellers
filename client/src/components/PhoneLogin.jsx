@@ -62,7 +62,8 @@ const PhoneLogin = ({closePopup}) => {
       });
       setMessage('OTP verified successfully');
       localStorage.setItem("user", res.data.user._id)
-      localStorage.setItem("phone", phone)
+      localStorage.setItem("phone", `${countryCode}${phone}`)
+      closePopup();
       // TODO: Redirect user or store token, etc.
     } catch (error) {
       setMessage('Invalid OTP');

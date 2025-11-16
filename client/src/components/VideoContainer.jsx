@@ -2,7 +2,7 @@ import React from 'react'
 
 const VideoContainer = () => {
   return (
-    <section className='md:px-12 px-4 flex flex-col gap-4'>
+    <section className='md:px-24 px-4 flex flex-col gap-4'>
       
       <div className='bg-[#F6F3EE] pt-12 pb-8 px-4 flex flex-col items-center gap-6 font-medium overflow-hidden rounded'>
         <h3 className='text-4xl text-center'>Explore & shop your favorites effortlessly!</h3>

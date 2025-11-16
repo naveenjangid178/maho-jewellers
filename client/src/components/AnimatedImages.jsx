@@ -24,7 +24,7 @@ const InfiniteColumn = ({ images, duration = 10, delay = 0, direction = "up" }) 
     const animationY = direction === "up" ? ["0%", "-50%"] : ["-50%", "0%"];
 
     return (
-        <div className="relative md:h-[400px] h-[200px] overflow-hidden w-full">
+        <div className="relative     md:h-[400px] h-[200px] overflow-hidden w-full">
             <motion.div
                 className="flex flex-col"
                 animate={{ y: animationY }} // Move up by half height (because duplicated)
@@ -52,7 +52,7 @@ const AnimatedImages = () => {
     const navigate = useNavigate()
 
     return (
-        <div className="bg-[#f3ecde] md:mx-12 mx-4 rounded my-4 flex flex-col md:flex-row justify-around gap-12 pt-12 md:px-20 px-4">
+        <div className="bg-[#f3ecde] md:mx-24 mx-4 md:h-120 md:my-12 rounded my-4 flex flex-col md:flex-row justify-around gap-12 pt-12 md:px-20 px-4">
             <div className=" flex flex-col gap-4 md:justify-center md:max-w-1/2">
                 <h3 className="md:text-4xl text-2xl font-medium">Masterfully crafted in India</h3>
                 <p className="text-gray-800 text-xl">

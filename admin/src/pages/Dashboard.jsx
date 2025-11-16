@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Users, Package, ShoppingBag, Plus, Trash2Icon } from 'lucide-react';
+import { Users, Package, ShoppingBag, Plus, Trash2Icon, X } from 'lucide-react';
 import axios from 'axios';
 import SliderImageUpload from '../components/SliderImageUpload';
 import "../index.css"
+import EditUserCatalogues from '../components/EditUserCatalogues';
+import AddCatalogueExpiryModal from '../components/AddCatalogueExpiryModal';
 
 const stats = [
   {
@@ -31,12 +33,33 @@ const stats = [
 function Dashboard() {
   const [createSliderImage, setCreateSliderImage] = useState(false);
   const [slider, setSlider] = useState([])
+  const [userId, setUserId] = useState('')
+  const [catalogueId, setCatalogueId] = useState('')
+  const [requestId, setRequestId] = useState('')
+  const [requestCatalogues, setRequestCatalogues] = useState([])
+  const [editUser, setEditUser] = useState(false)
+
+  const getUserRequests = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/request-access/`);
+      setRequestCatalogues(response.data.data)
+      console.log(response.data.data)
+      return response.data; // this should be an array of image objects
+    } catch (error) {
+      console.error('Error fetching sidebar images:', error);
+      return [];
+    }
+  }
+
+  useEffect(() => {
+    getUserRequests();
+  }, [])
 
   useEffect(() => {
     const getAllSidebarImages = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/slider/`);
-        console.log(response.data)
+        // console.log(response.data)
         setSlider(response.data)
         return response.data; // this should be an array of image objects
       } catch (error) {
@@ -106,34 +129,39 @@ function Dashboard() {
         <p className="text-gray-600 mb-6">Latest actions performed in the system</p>
 
         <div className="divide-y divide-gray-200 border border-gray-200 rounded-lg bg-gray-50">
-          <div className="flex justify-between items-center p-4">
-            <div>
-              <p className="font-semibold text-gray-900">New user registered</p>
-              <p className="text-sm text-gray-600">john.doe@example.com</p>
+          {requestCatalogues.map((req, i) => (
+            <div className="flex justify-between items-center p-4" key={i}>
+              {console.log(req)}
+              <div>
+                <p className="font-semibold text-gray-900">{req.title}</p>
+                <p className="text-sm text-gray-600">{req.phone}</p>
+              </div>
+              <span
+                onClick={() => {
+                  setEditUser(true)
+                  setUserId(req.userId)
+                  setCatalogueId(req.catalogueId)
+                  setRequestId(req._id)
+                }}
+                className="text-sm text-white rounded cursor-pointer font-semibold whitespace-nowrap bg-green-500 p-2"
+              >Approve</span>
             </div>
-            <span className="text-sm text-gray-500 whitespace-nowrap">2 minutes ago</span>
-          </div>
-
-          <div className="flex justify-between items-center p-4">
-            <div>
-              <p className="font-semibold text-gray-900">Product added to catalogue</p>
-              <p className="text-sm text-gray-600">Gold Ring - Premium Collection</p>
-            </div>
-            <span className="text-sm text-gray-500 whitespace-nowrap">15 minutes ago</span>
-          </div>
-
-          <div className="flex justify-between items-center p-4 rounded-b-lg">
-            <div>
-              <p className="font-semibold text-gray-900">Catalogue access granted</p>
-              <p className="text-sm text-gray-600">User: jane.smith@example.com</p>
-            </div>
-            <span className="text-sm text-gray-500 whitespace-nowrap">1 hour ago</span>
-          </div>
+          ))}
         </div>
-      </section>
+      </section >
 
-      {createSliderImage && <SliderImageUpload createSliderImage={createSliderImage} setCreateSliderImage={setCreateSliderImage} />}
-    </div>
+      {createSliderImage && <SliderImageUpload createSliderImage={createSliderImage} setCreateSliderImage={setCreateSliderImage} />
+      }
+      {editUser && (
+        <AddCatalogueExpiryModal
+          userId={userId}
+          requestId={requestId}
+          catalogueId={catalogueId}
+          onClose={() => setEditUser(null)}
+          onSuccess={getUserRequests}
+        />
+      )}
+    </div >
   );
 }
 

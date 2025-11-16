@@ -22,20 +22,22 @@ const Footer = () => {
 
     return (
         <footer>
-            <div className='bg-[#F6F3EE] font-[Platypi] py-2 md:px-12 px-4'>
+            <div className='bg-[#F6F3EE] font-[Platypi] py-2 md:px-24 px-4'>
                 <div className='flex md:flex-row flex-col md:gap-20 gap-4 py-4 md:py-12'>
                     <Logo width={75} />
                     <div className='flex md:flex-row flex-col gap-4 justify-between w-full'>
-                        <div className='flex flex-col gap-3 text-[#383434]'>
+                        <div className='text-[#383434] flex gap-4 flex-col'>
                             <h3 className='font-semibold'>Link</h3>
-                            <Link>Our Story</Link>
-                            <Link>Careers</Link>
-                            <Link to={"/blog"}>Blog</Link>
-                            <Link to={"privacy-policy"}>Privacy-Policy</Link>
+                            <span className='grid grid-cols-2 md:grid-cols-1 gap-3'>
+                                <Link>Our Story</Link>
+                                <Link>Careers</Link>
+                                <Link to={"/blog"}>Blog</Link>
+                                <Link to={"privacy-policy"}>Privacy-Policy</Link>
+                            </span>
                         </div>
                         <div className='text-[#383434] flex flex-col gap-4'>
                             <h3 className='font-semibold'>Shop</h3>
-                            <div className='grid md:grid-cols-2 gap-4 grid-cols-1'>
+                            <div className='grid grid-cols-2 gap-4'>
                                 {catalogues.map((c) => (
                                     <Link key={c._id} to={`/catalogue/${c._id}`}>{c.title}</Link>
                                 ))}
