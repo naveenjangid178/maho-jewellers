@@ -13,6 +13,7 @@ import CatalogueDetail from "./pages/CatalogueDetail"
 import PrivacyPolicy from "./utils/PrivacyPolicy"
 import ProductDetail from "./pages/ProductDetail"
 import { ProductListProvider } from "./context/ProductListContext"
+import Cart from "./pages/Cart"
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/top-products" element={<TopProduct />} />
             <Route path="/new-products" element={<NewArrivals />} />
             <Route path="/featured-products" element={<Featured />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/admin" element={<Admin />} />

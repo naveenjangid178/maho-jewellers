@@ -27,7 +27,7 @@ const CatalogueContainer = () => {
         fetchCatalogues();
     }, []);
 
-    const handleClick = async ({ id }) => {
+    const handleClick = async (id) => {
         const user = localStorage.getItem('user');
 
         if (user) {
@@ -92,17 +92,17 @@ const CatalogueContainer = () => {
                 <div className="flex flex-col gap-4 w-full md:w-1/3 py-4 md:py-8 justify-center">
                     {catalogues.map((c) => (
                         <div
-                            key={c._id}
-                            onMouseEnter={() => setHoveredId(c._id)}
-                            onMouseLeave={() => setHoveredId(null)}
-                            onClick={() => {
-                                handleClick(c._id)
-                                setCatalogueId(c._id)
-                                setTitle(c.title)
-                                console.log(c._id)
-                                console.log(c.title)
-                            }}
-                            className="text-xl md:text-2xl font-semibold py-2 border-b cursor-pointer transition"
+                        key={c._id}
+                        onMouseEnter={() => setHoveredId(c._id)}
+                        onMouseLeave={() => setHoveredId(null)}
+                        onClick={() => {
+                            handleClick(c._id)
+                            setCatalogueId(c._id)
+                            setTitle(c.title)
+                            console.log(c._id)
+                            console.log(c.title)
+                        }}
+                        className="text-xl md:text-2xl font-semibold py-2 border-b cursor-pointer transition"
                         >
                             {c.title}
                         </div>

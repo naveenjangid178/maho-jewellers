@@ -20,8 +20,8 @@ const CatalogueDetail = () => {
             setPhone(storedUser);  // assuming storedUser is phone number, adjust if needed
         }
     }, []);
-
-    useTrackProductView({ phone, catalogue: title });
+    useTrackProductView({ phone: phone, catalogue: title });
+    
 
     useEffect(() => {
         async function fetchProducts() {

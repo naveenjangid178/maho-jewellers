@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';  // Import Link and useLocation
+import { Link, useLocation, useNavigate } from 'react-router-dom';  // Import Link and useLocation
 import { Heart, Menu, ShoppingBag, X } from 'lucide-react';
 import Logo from './Logo';
 
 const Navbar = () => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const location = useLocation();  // Get the current location (path)
+    const navigate = useNavigate()
 
     const menuItems = [
         { name: "New In", link: "/new-products" },
@@ -44,7 +45,7 @@ const Navbar = () => {
                         {/* <p className="absolute top-[-6px] right-[-7px] bg-[#9C1137] rounded-full h-4 w-4 flex items-center justify-center text-white text-xs">
                             4
                         </p> */}
-                        <ShoppingBag height={21} />
+                        <ShoppingBag onClick={() => navigate("/cart")} height={21} />
                     </span>
 
                     {isMenuVisible ? <X className='md:hidden' onClick={handleClick} /> : <Menu className='md:hidden' onClick={handleClick} />}
