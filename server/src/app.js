@@ -35,6 +35,7 @@ app.get('/webhook', (req, res) => {
 import adminRouter from "./routes/admin.routes.js"
 import userRouter from "./routes/user.routes.js"
 import cartRouter from "./routes/cart.routes.js"
+import orderRouter from "./routes/order.routes.js"
 import catalougeRouter from "./routes/catalouge.routes.js"
 import featuredRouter from "./routes/featured.routes.js"
 import topProductRouter from "./routes/topProduct.routes.js"
@@ -49,6 +50,7 @@ import requestAccessRouter from "./routes/requestAccess.routes.js"
 app.use("/api/v1/admin", adminRouter)
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/cart", cartRouter)
+app.use("/api/v1/order", orderRouter)
 app.use("/api/v1/catalouge", catalougeRouter)
 app.use("/api/v1/featured", featuredRouter)
 app.use("/api/v1/top-product", topProductRouter)

@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import { getUserCart, addItemToCart, updateCartItemQuantity } from "../utils/cart";
 import { usePopup } from "../context/PopupContext";
 import { useNavigate } from "react-router-dom";
+import { createOrder } from "../utils/order";
 
 const Cart = () => {
     const [cart, setCart] = useState(null);
     const { setIsPopupVisible } = usePopup();
     const navigate = useNavigate();
     const user = localStorage.getItem("user");
+    const [refreshCart, setRefreshCart] = useState(false);
 
     useEffect(() => {
         if (user) fetchCart();
-    }, [user]);
+    }, [user, refreshCart]);
 
     const fetchCart = async () => {
         const data = await getUserCart(user);
@@ -40,6 +42,21 @@ const Cart = () => {
         });
         fetchCart();
     };
+
+    const handlePlaceOrder = async () => {
+        try {
+            const result = await createOrder(user);
+
+            setRefreshCart(prev => !prev);
+            
+            console.log("Order created:", result.order);
+            alert("Order placed successfully!");
+
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
 
     if (!cart || cart.products.length === 0) {
         return <p className="text-center mt-10">Your cart is empty.</p>;
@@ -116,6 +133,7 @@ const Cart = () => {
                         </div>
                     </div>
                 ))}
+                <button onClick={handlePlaceOrder} className="bg-[#9C1137] text-white px-2 rounded cursor-pointer">Place Order</button>
             </div>
         </div>
     );
