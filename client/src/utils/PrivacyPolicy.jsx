@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
 
 const PrivacyPolicy = () => {
   const [privacyHtml, setPrivacyHtml] = useState('');
@@ -16,7 +15,6 @@ const PrivacyPolicy = () => {
 
   return (
     <div>
-      <Navbar />
       <div className='md:px-12 px-4 py-8' dangerouslySetInnerHTML={{ __html: privacyHtml }} />
     </div>
   );

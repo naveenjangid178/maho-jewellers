@@ -2,7 +2,7 @@ import React from 'react'
 
 const ImageContainer = () => {
     return (
-        <div className='md:px-24 h-full px-4 flex flex-col gap-4'>
+        <div className='lg:px-24 h-full px-4 flex flex-col gap-4'>
             <div className="flex flex-col md:flex-row gap-2 h-auto md:h-145">
                 <div className="overflow-hidden w-full md:w-2/4 md:h-145">
                     <img

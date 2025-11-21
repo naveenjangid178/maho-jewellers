@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import { useProductList } from '../context/ProductListContext';
 import ShoppingCard from '../components/ShoppingCard';
 import { addItemToCart, getUserCart, updateCartItemQuantity } from '../utils/cart';
@@ -104,7 +103,6 @@ const ProductDetail = () => {
 
     return (
         <>
-            <Navbar />
             <div className="md:px-24 px-4 py-8">
                 <div className='flex md:flex-row flex-col md:gap-24 gap-4 border-b pb-4'>
                     <img

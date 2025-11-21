@@ -23,9 +23,9 @@ const Featured = () => {
     }, []);
 
     return (
-        <section className='bg-[#F6F3EE] mt-4 md:px-24 px-4 py-8 flex flex-col gap-8'>
+        <section className='bg-[#F6F3EE] mt-4 lg:px-24 px-4 py-8 flex flex-col gap-8'>
             <h3 className='text-[#9C1137] text-3xl font-[Platypi] py-4'>Featured Products</h3>
-            <div className='flex overflow-x-auto md:overflow-visible gap-2 md:gap-8 md:justify-between justify-items-center'>
+            <div className='flex overflow-x-auto lg:overflow-visible gap-2 md:gap-8 md:justify-between justify-items-center'>
                 <div className="md:min-w-65 min-w-full max-w-72 min-h-100 py-10 bg-[#f3ecde] rounded p-4 flex flex-col justify-between">
                     <span className='flex flex-col gap-1'>
                         <p className='font-thin text-sm text-gray-700'>The Hot Pics</p>

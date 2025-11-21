@@ -1,5 +1,7 @@
 import { Cart } from "../models/cart.model.js";
 import { Order } from "../models/order.model.js";
+import { Product } from "../models/product.model.js";
+import { User } from "../models/user.model.js";
 
 const createOrder = async (req, res) => {
     try {
@@ -76,8 +78,61 @@ const getUserOrders = async (req, res) => {
     }
 };
 
+const createOrderByAdmin = async (req, res) => {
+    try {
+        const { userId, products } = req.body;
+
+        // Validate body
+        if (!userId || !products || !Array.isArray(products) || products.length === 0) {
+            return res.status(400).json({ message: "User and products are required." });
+        }
+
+        // Validate user
+        const userExists = await User.findById(userId);
+        if (!userExists) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Validate each product
+        for (let item of products) {
+            const product = await Product.findById(item.productId);
+            if (!product) {
+                return res.status(404).json({
+                    message: `Product not found: ${item.productId}`
+                });
+            }
+        }
+
+        // Generate unique order ID (you can improve this if you want)
+        const generatedOrderId = "ORD-" + Date.now();
+
+        // Create order
+        const newOrder = new Order({
+            userId,
+            products,
+            orderId: generatedOrderId,
+            orderStatus: "pending",
+        });
+
+        await newOrder.save();
+
+        return res.status(201).json({
+            message: "Order created successfully",
+            order: newOrder,
+        });
+
+    } catch (err) {
+        console.error("Error creating order:", err);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: err.message,
+        });
+    }
+};
+
 export {
     createOrder,
     getAllOrders,
-    getUserOrders
+    getUserOrders,
+    createOrderByAdmin
 }

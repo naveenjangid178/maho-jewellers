@@ -70,10 +70,17 @@ const About = () => {
   };
 
   return (
-    <div className="relative max-w-full md:min-h-screen md:max-w-6xl rounded-lg overflow-hidden flex flex-col md:flex-row h-[450px] gap-8 md:h-[500px] md:mx-24 mx-4 p-4">
-      {/* TEXT SECTION */}
-      <div className="relative flex-1 flex flex-col justify-center md:p-10 overflow-hidden">
-        <h3 className="absolute md:top-30 top-0 left-0 md:left-10 text-sm font-medium">ABOUT US</h3>
+  <div className="relative w-full h-screen flex flex-col md:flex-row max-w-full overflow-hidden md:px-24 px-4 my-12">
+
+    {/* TEXT SECTION */}
+    <div className="relative flex-1 flex flex-col justify-center w-full h-auto md:h-full md:pr-12">
+      
+      <h3 className="text-sm font-medium tracking-wide mb-4 md:absolute md:top-8 md:left-4">
+        ABOUT US
+      </h3>
+
+      {/* TEXT SLIDER WRAPPER */}
+      <div className="relative w-full min-h-[260px] md:min-h-[350px]">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={index}
@@ -82,61 +89,65 @@ const About = () => {
             initial="enter"
             animate="center"
             exit="exit"
-            className="absolute w-full md:pr-10"
+            className="absolute inset-0"
           >
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#4b3d2a]">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[#4b3d2a]">
               {slides[index].title}
             </h2>
-            <p className="text-base md:text-lg text-[#6a5d4b]">
+
+            <p className="text-base md:text-xl text-[#6a5d4b] leading-relaxed">
               {slides[index].description}
             </p>
           </motion.div>
         </AnimatePresence>
       </div>
+    </div>
 
-      {/* IMAGE SECTION */}
-      <div className="relative flex-1 h-[250px] md:min-h-120 overflow-hidden">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.img
-            key={index}
-            src={slides[index].image}
-            alt={slides[index].title}
-            custom={direction}
-            variants={imageVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            className="absolute inset-0 w-fit h-100 md:top-20 rounded object-contain"
-          />
-        </AnimatePresence>
+    {/* IMAGE SECTION */}
+    <div className="relative flex-1 w-full h-[300px] md:h-full md:min-h-screen flex items-center justify-center overflow-hidden mt-6 md:mt-0">
 
-        {/* Progress Dots */}
-        <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex gap-3 md:gap-4">
-          {slides.map((_, i) => (
-            <div
-              key={i}
-              onClick={() => {
-                clearTimeout(timeoutRef.current);
-                setIndex(i);
-              }}
-              className="relative w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-black/70 cursor-pointer flex items-center justify-center"
-            >
-              {i === index && (
-                <motion.div
-                  key={index}
-                  className="absolute w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-white"
-                  initial={{ clipPath: "inset(0 100% 0 0)" }}
-                  animate={{ clipPath: "inset(0 0% 0 0)" }}
-                  transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
-                />
-              )}
-              <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-white rounded-full"></div>
-            </div>
-          ))}
-        </div>
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.img
+          key={index}
+          src={slides[index].image}
+          alt={slides[index].title}
+          custom={direction}
+          variants={imageVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          className="absolute inset-0 w-full h-full object-contain md:scale-110 lg:scale-125"
+        />
+      </AnimatePresence>
+
+      {/* Progress Dots */}
+      <div className="absolute bottom-5 md:bottom-10 left-1/2 -translate-x-1/2 flex gap-3">
+        {slides.map((_, i) => (
+          <div
+            key={i}
+            onClick={() => {
+              clearTimeout(timeoutRef.current);
+              setIndex(i);
+            }}
+            className="relative w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-black/60 cursor-pointer flex items-center justify-center"
+          >
+            {i === index && (
+              <motion.div
+                key={index}
+                className="absolute w-4 h-4 md:w-5 md:h-5 rounded-full border-2 border-white"
+                initial={{ clipPath: "inset(0 100% 0 0)" }}
+                animate={{ clipPath: "inset(0 0% 0 0)" }}
+                transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
+              />
+            )}
+            <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+          </div>
+        ))}
       </div>
     </div>
-  );
-};
 
-export default About;
+  </div>
+);
+}
+
+  export default About;

@@ -21,6 +21,7 @@ function App() {
     <BrowserRouter>
       <PopupProvider>
         <ProductListProvider>
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/catalogue" element={<Catalogues />} />

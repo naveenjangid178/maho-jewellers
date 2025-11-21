@@ -83,7 +83,7 @@ const CatalogueContainer = () => {
         : catalogues[0]; // default to first catalogue
 
     return (
-        <section className="md:px-24 px-4 mt-8">
+        <section className="lg:px-24 px-4 mt-8">
             <h3 className="text-[#9C1137] text-3xl font-[Platypi] py-4">
                 Shop by Collection
             </h3>

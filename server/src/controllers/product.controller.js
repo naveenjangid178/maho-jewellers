@@ -270,10 +270,20 @@ const createProductsFromExcel = async (req, res) => {
             const description = row.getCell(8).value;
             const imageBuffer = imageMap[rowNumber];
 
-            const existingProduct = await Product.findOne({ sku });
+            const existingProduct = await Product.findOne({
+                sku: sku,
+                netWeight: netWeight,
+                grossWeight: grossWeight
+            });
             if (existingProduct) {
                 console.log(`SKU "${sku}" already exists. Linking to catalogue and skipping creation.`);
 
+                existingProduct.name = name;
+                existingProduct.description = description;
+                existingProduct.productCount = productCount;
+
+                await existingProduct.save();
+                
                 // Avoid duplicating in catalogue.products
                 if (!catalogue.products.includes(existingProduct._id)) {
                     catalogue.products.push(existingProduct._id);
@@ -303,7 +313,7 @@ const createProductsFromExcel = async (req, res) => {
                 sku: sku ?? "Unnamed Product",
                 productCount: productCount,
                 beads: bead,
-                name : name ?? '',
+                name: name ?? '',
                 description: description ?? '',
                 netWeight: netWeight ?? 0,
                 grossWeight: grossWeight ?? 0,

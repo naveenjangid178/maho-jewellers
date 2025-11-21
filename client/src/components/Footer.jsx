@@ -22,7 +22,7 @@ const Footer = () => {
 
     return (
         <footer>
-            <div className='bg-[#F6F3EE] font-[Platypi] py-2 md:px-24 px-4'>
+            <div className='bg-[#F6F3EE] font-[Platypi] py-2 lg:px-24 px-4'>
                 <div className='flex md:flex-row flex-col md:gap-20 gap-4 py-4 md:py-12'>
                     <Logo width={75} />
                     <div className='flex md:flex-row flex-col gap-4 justify-between w-full'>
@@ -39,7 +39,7 @@ const Footer = () => {
                             <h3 className='font-semibold'>Shop</h3>
                             <div className='grid grid-cols-2 gap-4'>
                                 {catalogues.map((c) => (
-                                    <Link key={c._id} to={`/catalogue/${c._id}`}>{c.title}</Link>
+                                    <Link key={c._id} to={`/catalogue`}>{c.title}</Link>
                                 ))}
                             </div>
                         </div>

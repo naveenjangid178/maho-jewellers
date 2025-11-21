@@ -3,6 +3,7 @@ import { getUserCart, addItemToCart, updateCartItemQuantity } from "../utils/car
 import { usePopup } from "../context/PopupContext";
 import { useNavigate } from "react-router-dom";
 import { createOrder } from "../utils/order";
+import { BaggageClaim } from "lucide-react";
 
 const Cart = () => {
     const [cart, setCart] = useState(null);
@@ -48,7 +49,7 @@ const Cart = () => {
             const result = await createOrder(user);
 
             setRefreshCart(prev => !prev);
-            
+
             console.log("Order created:", result.order);
             alert("Order placed successfully!");
 
@@ -59,11 +60,16 @@ const Cart = () => {
 
 
     if (!cart || cart.products.length === 0) {
-        return <p className="text-center mt-10">Your cart is empty.</p>;
+        return <div className="bg-[#F1F1EE] h-screen flex flex-col w-full gap-4 items-center justify-center">
+            <BaggageClaim className="w-52" height={60} />
+            <p className="text-center ">Your Cart is Currently Empty.</p>
+            <button onClick={() => navigate("/")} className="bg-[#9C1137] text-white w-fit p-2 px-4 rounded cursor-pointer">Shop Now</button>
+        </div>
     }
 
     return (
-        <div className="max-w-4xl mx-auto mt-6">
+        <div className="w-full h-screen flex justify-center md:px-24 px-4 bg-[#F6F3EE]">
+        <div className="px-auto w-full">
             <h2 className="text-2xl mb-4">Your Cart</h2>
             <div className="flex flex-col gap-4">
                 {cart.products.map((item) => (
@@ -133,8 +139,9 @@ const Cart = () => {
                         </div>
                     </div>
                 ))}
-                <button onClick={handlePlaceOrder} className="bg-[#9C1137] text-white px-2 rounded cursor-pointer">Place Order</button>
+                <button onClick={handlePlaceOrder} className="bg-[#9C1137] text-white w-fit p-2 rounded cursor-pointer px-4">Place Order</button>
             </div>
+        </div>
         </div>
     );
 };

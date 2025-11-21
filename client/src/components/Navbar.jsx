@@ -23,7 +23,7 @@ const Navbar = () => {
     const isActive = (link) => location.pathname === link;
 
     return (
-        <nav className='md:px-24 bg-[#F6F3EE] px-4'>
+        <nav className='lg:px-24 bg-[#F6F3EE] px-4 sticky top-0 right-0 backdrop-blur-2xl z-100'>
             <div className='flex items-center gap-2 justify-between'>
                 <Logo width={50} />
                 <div className='md:flex hidden gap-8 justify-center p-2 opacity-60'>

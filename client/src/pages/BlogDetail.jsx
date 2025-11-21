@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -33,8 +32,7 @@ const BlogDetail = () => {
 
   return (
     <>
-    <Navbar />
-    <div className="md:px-12 px-4 py-8 flex flex-col gap-2">
+    <div className="lg:px-12 px-4 py-8 flex flex-col gap-2">
 
       {image && (
         <div className="mb-6">

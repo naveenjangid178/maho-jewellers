@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import axios from 'axios';
 import ShoppingCard from '../components/ShoppingCard';
 import useTrackProductView from '../utils/trackProductView';
@@ -39,8 +38,7 @@ const CatalogueDetail = () => {
 
     return (
         <>
-            <Navbar />
-            <section className='md:px-24 px-4 py-8 flex text-center flex-col gap-8'>
+            <section className='lg:px-24 px-4 py-8 flex text-center flex-col gap-8'>
                 <h2 className='text-2xl font-bold pb-4'>{title}</h2>
                 <div className='flex flex-wrap gap-2 md:justify-between justify-items-center'>
                     {products.map((items, i) => <ShoppingCard id={items._id} name={items.sku} image={items.images[0]} index={i} netWeight={items.netWeight} grossWeight={items.grossWeight} />)}

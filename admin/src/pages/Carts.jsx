@@ -1,18 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Search, Eye, Edit, Plus, Trash2, ShoppingCart } from 'lucide-react';
+import ViewCart from '../components/ViewCart';
+import AddCart from '../components/AddCart';
 
 function Carts() {
   const [carts, setCarts] = useState([]);
   const [viewProduct, setViewProduct] = useState([]);
+  const [viewUserCart, setViewUserCart] = useState(false);
+  const [viewAddCart, setViewAddCart] = useState(false);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const cartsPerPage = 10;
 
+  const handleViewCart = (cart) => {
+    setViewProduct(cart);
+    setViewUserCart(!viewUserCart);
+  }
+  
+  const onClose = () => {
+    setViewUserCart(!viewUserCart);
+  }
+
+  const onViewClose = () => {
+    setViewAddCart(!viewAddCart);
+  }
+
   useEffect(() => {
     console.log("viewProduct updated:", viewProduct);
-  }, [viewProduct]);
+  }, [viewUserCart]);
 
   const fetchAllOrders = async () => {
     try {
@@ -68,7 +85,10 @@ function Carts() {
           <h1 className="text-3xl font-semibold text-gray-900">Cart Management</h1>
           <p className="text-gray-500 mt-1">View and manage user shopping carts</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white font-medium hover:bg-blue-700 transition">
+        <button 
+        className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-white font-medium hover:bg-blue-700 transition"
+        onClick= {() => setViewAddCart(!viewAddCart)}
+        >
           <Plus className="h-5 w-5" />
           Create Cart
         </button>
@@ -127,7 +147,7 @@ function Carts() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center space-x-3">
-                    <button className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition text-sm font-medium" onClick={() => setViewProduct(cart)}>
+                    <button className="flex items-center gap-1 cursor-pointer text-blue-600 hover:text-blue-800 transition text-sm font-medium" onClick={() => handleViewCart(cart)}>
                       <Eye className="w-4 h-4" />
                       View
                     </button>
@@ -184,6 +204,9 @@ function Carts() {
           </div>
         </div>
       )}
+
+      {viewUserCart && <ViewCart onClose={onClose} cart={viewProduct} />}
+      {viewAddCart && <AddCart onClose={onViewClose} />}
     </div>
   );
 }
